@@ -3,9 +3,10 @@ import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
 import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
 import fileTextFill from '@iconify/icons-eva/file-text-fill';
-import lockFill from '@iconify/icons-eva/lock-fill';
-import personAddFill from '@iconify/icons-eva/person-add-fill';
-import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
+import lockFill from '@iconify/icons-ic/motorcycle';
+import test from '@iconify/icons-ic/round-bike-scooter';
+import plus from '@iconify/icons-eva/plus-circle-fill';
+import feedback from '@iconify/icons-ic/comment';
 
 // ----------------------------------------------------------------------
 
@@ -35,22 +36,22 @@ const sidebarConfig = [
   {
     title: 'Vehicle booking',
     path: '/dashboard/vehicle-booking',
-    icon: getIcon(fileTextFill)
+    icon: getIcon(lockFill)
   },
   {
     title: 'Test ride booking',
     path: '/dashboard/test-ride-booking',
-    icon: getIcon(fileTextFill)
+    icon: getIcon(test)
   },
   {
     title: 'Add new product',
     path: '/dashboard/add-product',
-    icon: getIcon(fileTextFill)
+    icon: getIcon(plus)
   },
   {
     title: 'Feedback & reviews',
     path: '/dashboard/feedback-review',
-    icon: getIcon(shoppingBagFill)
+    icon: getIcon(feedback)
   }
   // {
   //   title: 'login',

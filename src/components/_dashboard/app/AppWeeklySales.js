@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react';
+import { useState } from 'react';
 import androidFilled from '@iconify/icons-ant-design/slack-circle';
 // material
 import { alpha, styled } from '@mui/material/styles';
@@ -37,8 +38,9 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 const TOTAL = 714000;
 
 export default function AppWeeklySales() {
+  const [card, setCard] = useState(false);
   return (
-    <RootStyle>
+    <RootStyle onMouseOver={()=>{setCard=true}}>
       <IconWrapperStyle>
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>

@@ -23,7 +23,7 @@ import {
 export default function DashboardApp() {
   console.log(`"welcome here"`);
   return (
-    <Page title="Dashboard | Minimal-UI">
+    <Page title="Dashboard">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">Hi, Welcome vihaan</Typography>
@@ -38,18 +38,18 @@ export default function DashboardApp() {
           <Grid item xs={12} sm={6} md={3}>
             <AppItemOrders />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <AppBugReports />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6} md={3}>
             <TodayRevenue />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <AppBugReports />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppBugReports />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits />
