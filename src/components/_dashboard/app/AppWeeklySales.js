@@ -38,9 +38,11 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 const TOTAL = 714000;
 
 export default function AppWeeklySales() {
-  const [card, setCard] = useState(false);
+  // const [card, setCard] = useState(false);
   return (
-    <RootStyle onMouseOver={()=>{setCard=true}}>
+    <RootStyle
+    // onMouseOver={()=>{setCard=true}}
+    >
       <IconWrapperStyle>
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
