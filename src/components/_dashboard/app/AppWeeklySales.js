@@ -6,7 +6,6 @@ import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
-import './appWeekly.css';
 
 // ----------------------------------------------------------------------
 
@@ -18,12 +17,14 @@ const RootStyle = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.primary.lighter
 }));
 
-const OverCard = styled('Card')(({ theme }) => ({
-  width: '50%',
-  borderRadius: '1%',
+const OverCard = styled(Card)(({ theme }) => ({
+  width: theme.spacing(8),
+  borderRadius: '15%',
+  padding: theme.spacing(2, 2),
   position: 'relative',
   right: 0,
-  background: theme.palette.primary.light,
+  background: theme.palette.background.neutral,
+  // zIndex: 999,
   opacity: 1
 }));
 
@@ -50,10 +51,10 @@ const TOTAL = 714000;
 export default function AppWeeklySales() {
   const [card, setCard] = useState(false);
   return (
-    <RootStyle>
+    <RootStyle onMouseOver={()=> {setCard(true)}} onMouseOut={()=>{setCard(false)}}>
       <IconWrapperStyle>
         {card ?
-        <OverCard>Today:200</OverCard>
+        <OverCard>Today:200 Weekly: 300 Monthly: 400</OverCard>
         :
         null}
         <Icon icon={androidFilled} width={24} height={24} />
