@@ -6,6 +6,7 @@ import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+import './appWeekly.css';
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +16,15 @@ const RootStyle = styled(Card)(({ theme }) => ({
   padding: theme.spacing(5, 0),
   color: theme.palette.primary.darker,
   backgroundColor: theme.palette.primary.lighter
+}));
+
+const OverCard = styled('Card')(({ theme }) => ({
+  width: '50%',
+  borderRadius: '1%',
+  position: 'relative',
+  right: 0,
+  background: theme.palette.primary.light,
+  opacity: 1
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -40,8 +50,12 @@ const TOTAL = 714000;
 export default function AppWeeklySales() {
   const [card, setCard] = useState(false);
   return (
-    <RootStyle onMouseOver={()=>{setCard=true}}>
+    <RootStyle>
       <IconWrapperStyle>
+        {card ?
+        <OverCard>Today:200</OverCard>
+        :
+        null}
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
