@@ -18,25 +18,45 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   {
-    title: 'user',
+    title: 'User',
     path: '/dashboard/user',
     icon: getIcon(peopleFill)
   },
   {
-    title: 'product',
+    title: 'Orders',
+    path: '/dashboard/orders',
+    icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'Product',
     path: '/dashboard/products',
     icon: getIcon(shoppingBagFill)
   },
-  // {
-  //   title: 'blog',
-  //   path: '/dashboard/blog',
-  //   icon: getIcon(fileTextFill)
-  // },
   {
-    title: 'login',
-    path: '/login',
-    icon: getIcon(lockFill)
+    title: 'Vehicle booking',
+    path: '/dashboard/vehicle-booking',
+    icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'Test ride booking',
+    path: '/dashboard/test-ride-booking',
+    icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'Add new product',
+    path: '/dashboard/add-product',
+    icon: getIcon(fileTextFill)
+  },
+  {
+    title: 'Feedback & reviews',
+    path: '/dashboard/feedback-review',
+    icon: getIcon(shoppingBagFill)
   }
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: getIcon(lockFill)
+  // }
   // {
   //   title: 'register',
   //   path: '/register',
