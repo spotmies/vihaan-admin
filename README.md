@@ -1,4 +1,4 @@
-## Minimal [(Free version)](https://minimal-kit-react.vercel.app/)
+~## Minimal [(Free version)](https://minimal-kit-react.vercel.app/)
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
 
@@ -38,3 +38,6 @@ Distributed under the MIT License. See [LICENSE](https://github.com/minimal-ui-k
 ## Contact us
 
 Email Us: support@minimals.cc
+
+
+read me file updated
