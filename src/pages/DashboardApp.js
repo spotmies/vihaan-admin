@@ -1,5 +1,6 @@
 // material
 import { Box, Grid, Container, Typography } from '@mui/material';
+import TodayRevenue from '../components/_dashboard/app/today_revenue';
 // components
 import Page from '../components/Page';
 import {
@@ -20,11 +21,12 @@ import {
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  console.log(`"welcome here"`);
   return (
-    <Page title="Dashboard | Minimal-UI">
+    <Page title="Dashboard">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hi, Welcome back</Typography>
+          <Typography variant="h4">Hi, Welcome vihaan</Typography>
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
@@ -36,9 +38,18 @@ export default function DashboardApp() {
           <Grid item xs={12} sm={6} md={3}>
             <AppItemOrders />
           </Grid>
+          {/* <Grid item xs={12} sm={6} md={3}>
+            <AppBugReports />
+          </Grid> */}
           <Grid item xs={12} sm={6} md={3}>
+            <TodayRevenue />
+          </Grid>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <AppBugReports />
           </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppBugReports />
+          </Grid> */}
 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits />
