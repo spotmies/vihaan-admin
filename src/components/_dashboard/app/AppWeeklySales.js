@@ -17,6 +17,17 @@ const RootStyle = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.primary.lighter
 }));
 
+const OverCard = styled(Card)(({ theme }) => ({
+  width: theme.spacing(8),
+  borderRadius: '15%',
+  padding: theme.spacing(2, 2),
+  position: 'relative',
+  right: 0,
+  background: theme.palette.background.neutral,
+  // zIndex: 999,
+  opacity: 1
+}));
+
 const IconWrapperStyle = styled('div')(({ theme }) => ({
   margin: 'auto',
   display: 'flex',
@@ -40,10 +51,12 @@ const TOTAL = 714000;
 export default function AppWeeklySales() {
   // const [card, setCard] = useState(false);
   return (
-    <RootStyle
-    // onMouseOver={()=>{setCard=true}}
-    >
+    <RootStyle onMouseOver={()=> {setCard(true)}} onMouseOut={()=>{setCard(false)}}>
       <IconWrapperStyle>
+        {card ?
+        <OverCard>Today:200 Weekly: 300 Monthly: 400</OverCard>
+        :
+        null}
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
