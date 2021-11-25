@@ -68,7 +68,7 @@
         "singleQuote": true,
         "trailingComma": "none",
         "tabWidth": 2,
-        "endofLine": "auto"
+        "endofLine": "off"
       }
     ]
   }
