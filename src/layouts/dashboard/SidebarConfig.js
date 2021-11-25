@@ -45,7 +45,7 @@ const sidebarConfig = [
   },
   {
     title: 'Add new product',
-    path: '/dashboard/add-product',
+    path: '/dashboard/new-product',
     icon: getIcon(plus)
   },
   {
