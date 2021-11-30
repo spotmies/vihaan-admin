@@ -28,16 +28,17 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 //
 import USERLIST from '../_mocks_/user';
+import Popup from './popup';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'company', label: 'phone number', alignRight: false },
+  { id: 'role', label: 'join at', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  // { id: 'isVerified', label: 'vtatus', alignRight: false },
+  { id: 'menu',label:'menu' }
 ];
 
 // ----------------------------------------------------------------------
@@ -78,6 +79,7 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [Pop, setPop] = useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -180,6 +182,7 @@ export default function User() {
                           key={id}
                           tabIndex={-1}
                           role="checkbox"
+                          onClick= {()=> {setPop(true)}}
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
@@ -199,7 +202,7 @@ export default function User() {
                           </TableCell>
                           <TableCell align="left">{company}</TableCell>
                           <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                          {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell> */}
                           <TableCell align="left">
                             <Label
                               variant="ghost"
@@ -245,6 +248,10 @@ export default function User() {
           />
         </Card>
       </Container>
+      {
+      Pop ? <Popup /> : null
+      }
     </Page>
+   
   );
 }

@@ -1,10 +1,14 @@
 import { Icon } from '@iconify/react';
+import { useState } from 'react';
 import appleFilled from '@iconify/icons-ant-design/user';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
+
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+import './status_cards.css';
+
 
 // ----------------------------------------------------------------------
 
@@ -37,15 +41,41 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 const TOTAL = 1352831;
 
 export default function AppNewUsers() {
+  const [card, setCard] = useState(false);
   return (
-    <RootStyle>
+    <RootStyle onMouseOver={() => { setCard(true) }} onMouseLeave={() => { setCard(false) }}>
       <IconWrapperStyle>
         <Icon icon={appleFilled} width={24} height={24} />
       </IconWrapperStyle>
+      <div style={{height:"70px"}}>
+      {!card ?
+      <>
       <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        New Users
+        Weekly Sales
       </Typography>
-    </RootStyle>
-  );
+    </>
+    :
+    <div className="weekly-sales">
+      <div>
+        <p>12</p>
+        <p>today</p>
+      </div>
+
+      <div>
+        <p>120</p>
+        <p>week</p>
+      </div>
+
+      <div>
+        <p>123</p>
+        <p>month</p>
+      </div>
+    </div>
+  }
+  </div>
+
+</RootStyle>
+);
 }
+
