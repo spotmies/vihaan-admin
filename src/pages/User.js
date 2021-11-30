@@ -28,6 +28,7 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 //
 import USERLIST from '../_mocks_/user';
+import Popup from './popup';
 
 // ----------------------------------------------------------------------
 
@@ -78,6 +79,7 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [Pop, setPop] = useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -136,7 +138,7 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            user
+            User
           </Typography>
           <Button
             variant="contained"
@@ -180,6 +182,7 @@ export default function User() {
                           key={id}
                           tabIndex={-1}
                           role="checkbox"
+                          onClick= {()=> {setPop(true)}}
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
@@ -245,6 +248,10 @@ export default function User() {
           />
         </Card>
       </Container>
+      {
+      Pop ? <Popup /> : null
+      }
     </Page>
+   
   );
 }

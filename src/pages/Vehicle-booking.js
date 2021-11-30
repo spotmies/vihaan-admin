@@ -136,7 +136,7 @@ export default function Vehicleb() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+          Vehicle booking  
           </Typography>
           <Button
             variant="contained"
