@@ -13,6 +13,7 @@ import NotFound from './pages/Page404';
 import Orders from './pages/Orders';
 import Vehicleb from './pages/Vehicle-booking';
 import Feedback from './pages/Feedback&review';
+import NewProduct from './pages/NewProduct';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +29,8 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'orders', element: <Orders /> },
         { path: 'vehicle-booking', element: <Vehicleb /> },
-        { path: 'feedback-review', element: <Feedback /> }
+        { path: 'feedback-review', element: <Feedback /> },
+        { path: 'new-product', element: <NewProduct />}
         // { path: 'blog', element: <Blog /> }
       ]
     },
