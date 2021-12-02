@@ -79,6 +79,7 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selectedData, setSelectedData] = useState();
   const [Pop, setPop] = useState(false);
 
   const handleRequestSort = (event, property) => {
@@ -133,6 +134,11 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  const selectedItem = (item) => {
+    setSelectedData(item);
+    setPop(true);
+  }
+
   return (
     <Page title="User">
       <Container>
@@ -182,7 +188,7 @@ export default function User() {
                           key={id}
                           tabIndex={-1}
                           role="checkbox"
-                          onClick= {()=> {setPop(true)}}
+                          onClick= {() => selectedItem(row)}
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
@@ -227,6 +233,7 @@ export default function User() {
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
+                    
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
@@ -246,11 +253,22 @@ export default function User() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+          {
+                      Pop ? (
+                        <div className="card">
+                          <img alt='' src={selectedData.avatarUrl} className='avatar-image' />
+                          <br />
+                          <ul className='profile-list'>
+                          <li><b>Name</b> : {selectedData.name}</li>
+                          <li><b>Company</b> : {selectedData.company}</li>
+                          <li><b>Role</b> : {selectedData.role}</li>
+                          </ul>
+                          <button type="button" className='close-btn' onClick={() => setPop(false)}>X</button>
+                        </div>
+                      ) : null
+                    }
         </Card>
       </Container>
-      {
-      Pop ? <Popup /> : null
-      }
     </Page>
    
   );
