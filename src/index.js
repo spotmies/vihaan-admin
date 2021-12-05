@@ -9,6 +9,7 @@ import { CommonProvider } from './state_management/common_context';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
+import { CommonProvider2 } from './state_management/common_context2';
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +17,9 @@ ReactDOM.render(
   <HelmetProvider>
     <BrowserRouter>
     <CommonProvider>
+      <CommonProvider2>
     <App />
+    </CommonProvider2>
     </CommonProvider>
    
     </BrowserRouter>

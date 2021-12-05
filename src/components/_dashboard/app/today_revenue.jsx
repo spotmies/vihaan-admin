@@ -7,6 +7,7 @@ import { useObserver } from "mobx-react";
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
 import { useCommonStore } from '../../../state_management/common_context';
+import {useCommonStore2} from "../../../state_management/common_context2";
 
 
 // ----------------------------------------------------------------------
@@ -41,6 +42,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 export default function TodayRevenue() {
   const store = useCommonStore();
+  const store2 = useCommonStore2();
   return useObserver(() => (
     <RootStyle>
       <IconWrapperStyle>
@@ -48,7 +50,7 @@ export default function TodayRevenue() {
       </IconWrapperStyle>
 
       <Typography variant="h3" onClick={() => store.increment()}>{store.value}</Typography>
-      <Typography variant="h3" onClick={() => store.increment()}>{store.value}</Typography>
+      <Typography variant="h3" onClick={() => store2.increment()}>{store2.value}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Today Revenue
