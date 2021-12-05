@@ -3,8 +3,11 @@ import bugFilled from '@iconify/icons-ant-design/money-collect';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
+import { useObserver } from "mobx-react";
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+import { useCommonStore } from '../../../state_management/common_context';
+
 
 // ----------------------------------------------------------------------
 
@@ -34,18 +37,23 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 234;
+
 
 export default function TodayRevenue() {
-  return (
+  const store = useCommonStore();
+  return useObserver(() => (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={bugFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+
+      <Typography variant="h3" onClick={() => store.increment()}>{store.value}</Typography>
+      <Typography variant="h3" onClick={() => store.increment()}>{store.value}</Typography>
+
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Today Revenue
       </Typography>
     </RootStyle>
-  );
+  ));
+
 }
