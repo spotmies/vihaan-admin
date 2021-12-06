@@ -1,6 +1,7 @@
 // material
 import { Box, Grid, Container, Typography } from '@mui/material';
 import TodayRevenue from '../components/_dashboard/app/today_revenue';
+import palette from "../theme/palette";
 // components
 import Page from '../components/Page';
 import {
@@ -30,13 +31,17 @@ export default function DashboardApp() {
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWeeklySales />
+            <AppWeeklySales tagName="weekly sales" count="70" counts={[12,10,11]}/>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppNewUsers />
+            {/* <AppNewUsers /> */}
+            <AppWeeklySales tagName="active user" count="5" counts={[2,0,11]}/>
+
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppItemOrders />
+            {/* <AppItemOrders /> */}
+            <AppWeeklySales tagName="item order" count="70" counts={[12,10,11]} bc={palette.primary.lighter}/>
+
           </Grid>
           {/* <Grid item xs={12} sm={6} md={3}>
             <AppBugReports />

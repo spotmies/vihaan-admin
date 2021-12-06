@@ -1,0 +1,38 @@
+.card{
+    height: 350px;
+    width: 800px;
+    border-radius: 3px;
+    background: linear-gradient(#E0EAFC,#CFDEF3);
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 40%);
+    position: fixed;
+    top: calc(50% - 110px);
+    left: calc(50% - 26.2%);
+    padding: 10px;
+}
+
+.avatar-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 40%);
+}
+
+.profile-list li {
+    list-style: none;
+    padding: 5px;
+}
+
+.close-btn{
+    font-weight: bold;
+    border: 1px solid gray;
+    border-radius: 100%;
+    padding: 5px;
+    width:30px;
+    height: 30px;
+    display: block;
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 40%);
+    position: absolute;
+    top: 10px;
+    cursor: pointer;
+    right: 10px;
+}

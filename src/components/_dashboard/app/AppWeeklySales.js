@@ -6,7 +6,8 @@ import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
-
+import Tooltip from '../../../theme/overrides/Tooltip';
+import './status_cards.css'
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -15,15 +16,17 @@ const RootStyle = styled(Card)(({ theme }) => ({
   padding: theme.spacing(5, 0),
   color: theme.palette.primary.darker,
   backgroundColor: theme.palette.primary.lighter
+  // backgroundColor: props.bc
 }));
 
 const OverCard = styled(Card)(({ theme }) => ({
-  width: theme.spacing(8),
+  width: "100%",
+  height: "100%",
   borderRadius: '15%',
-  padding: theme.spacing(2, 2),
-  position: 'relative',
+  position: 'absolute',
   right: 0,
   background: theme.palette.background.neutral,
+  color: theme.palette.chart.green,
   // zIndex: 999,
   opacity: 1
 }));
@@ -46,23 +49,46 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
+const TOTAL = 70;
 
-export default function AppWeeklySales() {
-  // const [card, setCard] = useState(false);
+export default function AppWeeklySales(props) {
+  const [card, setCard] = useState(false);
+  console.log(props)
   return (
-    <RootStyle onMouseOver={()=> {setCard(true)}} onMouseOut={()=>{setCard(false)}}>
+    <RootStyle onMouseOver={() => { setCard(true) }} onMouseLeave={() => { setCard(false) }} bc = {props.bc}>
+  
       <IconWrapperStyle>
-        {card ?
-        <OverCard>Today:200 Weekly: 300 Monthly: 400</OverCard>
-        :
-        null}
+
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Weekly Sales
-      </Typography>
+      <div style={{height:"70px"}}>
+      {!card ?
+        <>
+          <Typography variant="h3">{fShortenNumber(props.count)}</Typography>
+          <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+            {props.tagName}
+          </Typography>
+        </>
+        :
+        <div className="weekly-sales">
+          <div>
+            <p>{props.counts[0]}</p>
+            <p>today</p>
+          </div>
+
+          <div>
+            <p>{props.counts[1]}</p>
+            <p>week</p>
+          </div>
+
+          <div>
+            <p>{props.counts[2]}</p>
+            <p>month</p>
+          </div>
+        </div>
+      }
+      </div>
+
     </RootStyle>
   );
 }

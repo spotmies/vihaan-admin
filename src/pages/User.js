@@ -1,8 +1,9 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
+import { useState,useEffect } from 'react';
+import plusFill from '@iconify/icons-ant-design/reload-outline';
+import { useObserver } from 'mobx-react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -18,7 +19,8 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Paper
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -28,16 +30,21 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 //
 import USERLIST from '../_mocks_/user';
+import { useStores } from '../state_management/store';
+import Popup from './popup';
+import React from 'react';
+import UserModel from 'src/components/reusable/user_model';
+
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'company', label: 'phone number', alignRight: false },
+  { id: 'role', label: 'join at', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  // { id: 'isVerified', label: 'vtatus', alignRight: false },
+  { id: 'menu',label:'menu' }
 ];
 
 // ----------------------------------------------------------------------
@@ -72,12 +79,17 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
+
+  const {UserStore} = useStores();
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selectedData, setSelectedData] = useState();
+  const [Pop, setPop] = useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -131,7 +143,15 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  return (
+  const selectedItem = (item) => {
+    setSelectedData(item);
+    setPop(true);
+  }
+
+  useEffect(() => {
+   if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
+  }, [])
+  return useObserver(() => (
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -143,8 +163,9 @@ export default function User() {
             component={RouterLink}
             to="#"
             startIcon={<Icon icon={plusFill} />}
+            onClick={()=> UserStore.fetchUserFromDB()}
           >
-            New User
+            Reload
           </Button>
         </Stack>
 
@@ -168,53 +189,49 @@ export default function User() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
-
-                      return (
+                  {UserStore.listUser.map(user =>  (
                         <TableRow
                           hover
-                          key={id}
+                          key={user.id}
                           tabIndex={-1}
                           role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
+                          // onClick= {() => selectedItem(user)}
+                          // selected={isItemSelected}
+                          // aria-checked={isItemSelected}
                         >
                           <TableCell padding="checkbox">
                             <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
+                              // checked={isItemSelected}
+                              // onChange={(event) => handleClick(event, name)}
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
+   
+                          <TableCell component="th" scope="row" padding="none" onClick= {() => selectedItem(user)} style={{cursor:"pointer"}}>
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={name} src={avatarUrl} />
+                              <Avatar alt={user.name} src={user.pic} />
                               <Typography variant="subtitle2" noWrap>
-                                {name}
+                                {user.name}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                          <TableCell align="left">{user.mobile}</TableCell>
+                          <TableCell align="left">{user.createdAt}</TableCell>
+                          {/* <TableCell align="left">{user.isActive ? 'Yes' : 'No'}</TableCell> */}
                           <TableCell align="left">
                             <Label
                               variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
+                              color={(user.userState === 'banned' && 'error') || 'success'}
                             >
-                              {sentenceCase(status)}
+                              {sentenceCase(user.userState)}
                             </Label>
                           </TableCell>
-
+                      
                           <TableCell align="right">
-                            <UserMoreMenu />
+                            <UserMoreMenu  onDelete={() => {UserStore.deleteUser(user.uId)}}/>
                           </TableCell>
                         </TableRow>
-                      );
-                    })}
+                      ))
+                    }
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />
@@ -224,6 +241,7 @@ export default function User() {
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
+                    
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
@@ -242,9 +260,12 @@ export default function User() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          />{ Pop ?
+          <UserModel details={selectedData} onClose={()=>{setPop(false)}} /> :null}
         </Card>
       </Container>
     </Page>
+  )
+   
   );
 }
