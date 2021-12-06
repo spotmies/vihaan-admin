@@ -33,6 +33,7 @@ import USERLIST from '../_mocks_/user';
 import { useStores } from '../state_management/store';
 import Popup from './popup';
 import React from 'react';
+import UserModel from 'src/components/reusable/user_model';
 
 
 // ----------------------------------------------------------------------
@@ -150,7 +151,6 @@ export default function User() {
   useEffect(() => {
    if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
   }, [])
-
   return useObserver(() => (
     <Page title="User">
       <Container>
@@ -227,7 +227,7 @@ export default function User() {
                           </TableCell>
                       
                           <TableCell align="right">
-                            <UserMoreMenu />
+                            <UserMoreMenu  onDelete={() => {UserStore.deleteUser(user.uId)}}/>
                           </TableCell>
                         </TableRow>
                       ))
@@ -260,21 +260,8 @@ export default function User() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-          {
-                      Pop ? (
-                        <div className="card">
-                          <img alt='' src={selectedData.avatarUrl} className='avatar-image' />
-                          <br />
-                          <ul className='profile-list'>
-                          <li><b>Name</b> : {selectedData.name}</li>
-                          <li><b>Company</b> : {selectedData.company}</li>
-                          <li><b>Role</b> : {selectedData.role}</li>
-                          </ul>
-                          <button type="button" className='close-btn' onClick={() => setPop(false)}>X</button>
-                        </div>
-                      ) : null
-                    }
+          />{ Pop ?
+          <UserModel details={selectedData} onClose={()=>{setPop(false)}} /> :null}
         </Card>
       </Container>
     </Page>
