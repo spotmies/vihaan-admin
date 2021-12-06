@@ -146,24 +146,26 @@ export default function User() {
   }
 
   useEffect(() => {
+    if(UserStore.listUser < 1) {
     UserStore.fetchUserFromDB()
     console.log("getting details");
-  }, [])
+  }}, [])
 
   return useObserver(() => (
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Users
           </Typography>
           <Button
             variant="contained"
             component={RouterLink}
             to="#"
             startIcon={<Icon icon={plusFill} />}
+            onClick={() => UserStore.fetchUserFromDB()}
           >
-            New User
+            Reload
           </Button>
         </Stack>
 
@@ -193,7 +195,7 @@ export default function User() {
                           key={user.id}
                           tabIndex={-1}
                           role="checkbox"
-                          onClick= {() => selectedItem(user)}
+                        
                           // selected={isItemSelected}
                           // aria-checked={isItemSelected}
                         >
@@ -203,6 +205,7 @@ export default function User() {
                               // onChange={(event) => handleClick(event, name)}
                             />
                           </TableCell>
+                          <div onClick={() => selectedItem(user)}>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={user.name} src={user.pic} />
@@ -222,7 +225,7 @@ export default function User() {
                               {sentenceCase(user.userState)}
                             </Label>
                           </TableCell>
-
+                          </div>
                           <TableCell align="right">
                             <UserMoreMenu />
                           </TableCell>
