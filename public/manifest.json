@@ -3,12 +3,12 @@
   "name": "vihaan admin panel",
   "icons": [
     {
-      "src": "",
+      "src": "./vihaan.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "",
+      "src": "./vihaan.png",
       "sizes": "512x512",
       "type": "image/png"
     }

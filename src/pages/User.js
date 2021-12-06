@@ -2,7 +2,7 @@ import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState,useEffect } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
+import plusFill from '@iconify/icons-ant-design/reload-outline';
 import { useObserver } from 'mobx-react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
@@ -163,8 +163,9 @@ export default function User() {
             component={RouterLink}
             to="#"
             startIcon={<Icon icon={plusFill} />}
+            onClick={()=> UserStore.fetchUserFromDB()}
           >
-            New User
+            Reload
           </Button>
         </Stack>
 
