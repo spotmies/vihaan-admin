@@ -19,7 +19,8 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Paper
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -31,6 +32,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 import USERLIST from '../_mocks_/user';
 import { useStores } from '../state_management/store';
 import Popup from './popup';
+import React from 'react';
 
 
 // ----------------------------------------------------------------------
@@ -146,8 +148,7 @@ export default function User() {
   }
 
   useEffect(() => {
-    UserStore.fetchUserFromDB()
-    console.log("getting details");
+   if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
   }, [])
 
   return useObserver(() => (
@@ -193,7 +194,7 @@ export default function User() {
                           key={user.id}
                           tabIndex={-1}
                           role="checkbox"
-                          onClick= {() => selectedItem(user)}
+                          // onClick= {() => selectedItem(user)}
                           // selected={isItemSelected}
                           // aria-checked={isItemSelected}
                         >
@@ -203,7 +204,8 @@ export default function User() {
                               // onChange={(event) => handleClick(event, name)}
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
+   
+                          <TableCell component="th" scope="row" padding="none" onClick= {() => selectedItem(user)} style={{cursor:"pointer"}}>
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={user.name} src={user.pic} />
                               <Typography variant="subtitle2" noWrap>
@@ -222,7 +224,7 @@ export default function User() {
                               {sentenceCase(user.userState)}
                             </Label>
                           </TableCell>
-
+                      
                           <TableCell align="right">
                             <UserMoreMenu />
                           </TableCell>

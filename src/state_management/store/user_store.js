@@ -26,6 +26,7 @@ class UserStore {
 }
 
   fetchUserFromDB = async() => {
+    console.log("getting users from db")
     const resp = await apiGet(apiUrl.listUsers);
     if(resp.status === 200){
       this.listUser = resp.body;
