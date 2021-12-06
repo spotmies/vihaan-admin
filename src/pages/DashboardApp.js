@@ -11,12 +11,7 @@ import {
   AppItemOrders,
   AppNewsUpdate,
   AppWeeklySales,
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
-  AppCurrentSubject,
-  AppConversionRates
+  AppOrderTimeline
 } from '../components/_dashboard/app';
 
 // ----------------------------------------------------------------------
@@ -34,59 +29,24 @@ export default function DashboardApp() {
             <AppWeeklySales tagName="weekly sales" count="70" counts={[12,10,11]}/>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            {/* <AppNewUsers /> */}
+          
             <AppWeeklySales tagName="active user" count="5" counts={[2,0,11]}/>
 
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            {/* <AppItemOrders /> */}
+          
             <AppWeeklySales tagName="item order" count="70" counts={[12,10,11]} bc={palette.primary.lighter}/>
 
           </Grid>
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <AppBugReports />
-          </Grid> */}
+         
           <Grid item xs={12} sm={6} md={3}>
             <TodayRevenue />
           </Grid>
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <AppBugReports />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppBugReports />
-          </Grid> */}
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits />
-          </Grid>
-
-          {/* <Grid item xs={12} md={6} lg={8}>
-            <AppConversionRates />
-          </Grid> */}
-
-          {/* <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentSubject />
-          </Grid> */}
-
-          {/* <Grid item xs={12} md={6} lg={8}>
-            <AppNewsUpdate />
-          </Grid> */}
-
+        
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline />
           </Grid>
 
-          {/* <Grid item xs={12} md={6} lg={4}>
-            <AppTrafficBySite />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppTasks />
-          </Grid> */}
         </Grid>
       </Container>
     </Page>
