@@ -3,7 +3,7 @@ import bugFilled from '@iconify/icons-ant-design/money-collect';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
-import { useObserver } from 'mobx-react'
+import { useObserver } from 'mobx-react';
 
 // utils
 import { useStores } from '../../../state_management/store';
