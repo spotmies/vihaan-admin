@@ -1,4 +1,6 @@
 
+import apiUrls from "../resources/api_calls/api_urls";
+import { apiGet } from "../resources/api_calls/api_methods";
 
 export function commonStore(){
     return {
@@ -17,6 +19,13 @@ export function commonStore(){
       },
       decrement(){
         this.value -= 1;
+      },
+      async fetchAllProductsFromDB(){
+        const response = await apiGet(apiUrls.fetchAllProducts)
+        
+        console.log("response",response)
+        this.value += response.body.length;
       }
+
     }
   }

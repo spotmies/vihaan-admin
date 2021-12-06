@@ -49,8 +49,8 @@ export default function TodayRevenue() {
         <Icon icon={bugFilled} width={24} height={24} />
       </IconWrapperStyle>
 
-      <Typography variant="h3" onClick={() => store.increment()}>{store.value}</Typography>
-      <Typography variant="h3" onClick={() => store2.increment()}>{store2.value}</Typography>
+      <Typography variant="h3" onClick={() => store.fetchAllProductsFromDB()}>{store.value}</Typography>
+      <Typography variant="h3" onClick={() => store2.increment()}>{store2.value2}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Today Revenue
