@@ -1,9 +1,6 @@
 import { makeAutoObservable } from 'mobx'
-
 class Store2 {
-
     qty = 0;
-
     constructor(){
         makeAutoObservable(this)
     }
