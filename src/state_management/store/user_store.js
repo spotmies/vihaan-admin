@@ -3,9 +3,11 @@ import { apiGet } from '../../resources/api_calls/api_methods';
 import apiUrl from '../../resources/api_calls/api_urls';
 
 
-class Store1 {
+class UserStore {
 
   price = 1;
+
+  listUser =[];
 
   constructor() {
     makeAutoObservable(this)
@@ -23,6 +25,17 @@ class Store1 {
   this.price += response.body.length;
 }
 
+  fetchUserFromDB = async() => {
+    const resp = await apiGet(apiUrl.listUsers);
+    if(resp.status === 200){
+      this.listUser = resp.body;
+      console.log(resp.body);
+    }
+    else{
+      console.log("went wroing",resp.status);
+    }
+  }
+
 }
 
-export default  Store1;
+export default  UserStore;
