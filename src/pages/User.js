@@ -1,8 +1,9 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
+import { useObserver } from 'mobx-react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -28,7 +29,9 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 //
 import USERLIST from '../_mocks_/user';
+import { useStores } from '../state_management/store';
 import Popup from './popup';
+
 
 // ----------------------------------------------------------------------
 
@@ -73,6 +76,9 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
+
+  const {UserStore} = useStores();
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -139,7 +145,12 @@ export default function User() {
     setPop(true);
   }
 
-  return (
+  useEffect(() => {
+    UserStore.fetchUserFromDB()
+    console.log("getting details");
+  }, [])
+
+  return useObserver(() => (
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -176,45 +187,39 @@ export default function User() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
-
-                      return (
+                  {UserStore.listUser.map(user =>  (
                         <TableRow
                           hover
-                          key={id}
+                          key={user.id}
                           tabIndex={-1}
                           role="checkbox"
-                          onClick= {() => selectedItem(row)}
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
+                          onClick= {() => selectedItem(user)}
+                          // selected={isItemSelected}
+                          // aria-checked={isItemSelected}
                         >
                           <TableCell padding="checkbox">
                             <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
+                              // checked={isItemSelected}
+                              // onChange={(event) => handleClick(event, name)}
                             />
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={name} src={avatarUrl} />
+                              <Avatar alt={user.name} src={user.pic} />
                               <Typography variant="subtitle2" noWrap>
-                                {name}
+                                {user.name}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell> */}
+                          <TableCell align="left">{user.mobile}</TableCell>
+                          <TableCell align="left">{user.createdAt}</TableCell>
+                          {/* <TableCell align="left">{user.isActive ? 'Yes' : 'No'}</TableCell> */}
                           <TableCell align="left">
                             <Label
                               variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
+                              color={(user.userState === 'banned' && 'error') || 'success'}
                             >
-                              {sentenceCase(status)}
+                              {sentenceCase(user.userState)}
                             </Label>
                           </TableCell>
 
@@ -222,8 +227,8 @@ export default function User() {
                             <UserMoreMenu />
                           </TableCell>
                         </TableRow>
-                      );
-                    })}
+                      ))
+                    }
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />
@@ -270,6 +275,7 @@ export default function User() {
         </Card>
       </Container>
     </Page>
+  )
    
   );
 }
