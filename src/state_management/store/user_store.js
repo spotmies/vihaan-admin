@@ -1,5 +1,5 @@
-import { makeAutoObservable } from 'mobx';
-import { apiGet } from '../../resources/api_calls/api_methods';
+import { makeAutoObservable } from 'mobx'
+import { apiGet, apiPostPut } from '../../resources/api_calls/api_methods';
 import apiUrl from '../../resources/api_calls/api_urls';
 
 
@@ -8,6 +8,7 @@ class UserStore {
   price = 1;
 
   listUser =[];
+  loading = false;
 
   constructor() {
     makeAutoObservable(this)
@@ -26,7 +27,14 @@ class UserStore {
 }
 
   fetchUserFromDB = async() => {
+    if(this.loading){
+      alert("loading try again later..");
+      return;
+    }
+    console.log("getting users from db")
+    this.loading=true
     const resp = await apiGet(apiUrl.listUsers);
+    this.loading=false
     if(resp.status === 200){
       this.listUser = resp.body;
       console.log(resp.body);
@@ -35,7 +43,33 @@ class UserStore {
       console.log("went wroing",resp.status);
     }
   }
+  deleteUser = async(uId) => {
+    if(this.loading){
+      alert("loading try again later..");
+      return;
+    }
+    let body = {
+      isDeleted:true
+    };
+    let path =`/user/users/${uId}`
+    this.loading=true
+const resp = await apiPostPut(body,path,"PUT");
+    this.loading=false
+if (resp.status === 200 ||resp.status === 204 ){
+  this.delete2(uId);
+  }
+}
+
+
+delete2 = (uId) => {
+  let remainingUsers = this.listUser.filter(user => user.uId !== uId)
+  console.log(remainingUsers)
+  this.listUser=remainingUsers;
 
 }
+
+  }
+
+
 
 export default  UserStore;

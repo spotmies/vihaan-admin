@@ -2,7 +2,7 @@ import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState,useEffect } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
+import plusFill from '@iconify/icons-ant-design/reload-outline';
 import { useObserver } from 'mobx-react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
@@ -19,7 +19,8 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Paper
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -31,6 +32,8 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dash
 import USERLIST from '../_mocks_/user';
 import { useStores } from '../state_management/store';
 import Popup from './popup';
+import React from 'react';
+import UserModel from 'src/components/reusable/user_model';
 
 
 // ----------------------------------------------------------------------
@@ -146,11 +149,8 @@ export default function User() {
   }
 
   useEffect(() => {
-    if(UserStore.listUser < 1) {
-    UserStore.fetchUserFromDB()
-    console.log("getting details");
-  }}, [])
-
+   if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
+  }, [])
   return useObserver(() => (
     <Page title="User">
       <Container>
@@ -163,7 +163,7 @@ export default function User() {
             component={RouterLink}
             to="#"
             startIcon={<Icon icon={plusFill} />}
-            onClick={() => UserStore.fetchUserFromDB()}
+            onClick={()=> UserStore.fetchUserFromDB()}
           >
             Reload
           </Button>
@@ -195,7 +195,7 @@ export default function User() {
                           key={user.id}
                           tabIndex={-1}
                           role="checkbox"
-                        
+                          // onClick= {() => selectedItem(user)}
                           // selected={isItemSelected}
                           // aria-checked={isItemSelected}
                         >
@@ -205,8 +205,8 @@ export default function User() {
                               // onChange={(event) => handleClick(event, name)}
                             />
                           </TableCell>
-                          <div onClick={() => selectedItem(user)}>
-                          <TableCell component="th" scope="row" padding="none">
+   
+                          <TableCell component="th" scope="row" padding="none" onClick= {() => selectedItem(user)} style={{cursor:"pointer"}}>
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={user.name} src={user.pic} />
                               <Typography variant="subtitle2" noWrap>
@@ -225,9 +225,9 @@ export default function User() {
                               {sentenceCase(user.userState)}
                             </Label>
                           </TableCell>
-                          </div>
+                      
                           <TableCell align="right">
-                            <UserMoreMenu />
+                            <UserMoreMenu  onDelete={() => {UserStore.deleteUser(user.uId)}}/>
                           </TableCell>
                         </TableRow>
                       ))
@@ -260,21 +260,8 @@ export default function User() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-          {
-                      Pop ? (
-                        <div className="card">
-                          <img alt='' src={selectedData.avatarUrl} className='avatar-image' />
-                          <br />
-                          <ul className='profile-list'>
-                          <li><b>Name</b> : {selectedData.name}</li>
-                          <li><b>Company</b> : {selectedData.company}</li>
-                          <li><b>Role</b> : {selectedData.role}</li>
-                          </ul>
-                          <button type="button" className='close-btn' onClick={() => setPop(false)}>X</button>
-                        </div>
-                      ) : null
-                    }
+          />{ Pop ?
+          <UserModel details={selectedData} onClose={()=>{setPop(false)}} /> :null}
         </Card>
       </Container>
     </Page>

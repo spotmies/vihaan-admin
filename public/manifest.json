@@ -1,14 +1,26 @@
 {
+<<<<<<< HEAD
   "short_name": "Vihaaan",
   "name": "Vihaan",
   "icons": [
     {
       "src": "",
+=======
+  "short_name": "vihaan admin App",
+  "name": "vihaan admin panel",
+  "icons": [
+    {
+      "src": "./vihaan.png",
+>>>>>>> b52ec8caf43021972ec74beafa68abde1d6f5f87
       "sizes": "192x192",
       "type": "image/png"
     },
     {
+<<<<<<< HEAD
       "src": "",
+=======
+      "src": "./vihaan.png",
+>>>>>>> b52ec8caf43021972ec74beafa68abde1d6f5f87
       "sizes": "512x512",
       "type": "image/png"
     }
