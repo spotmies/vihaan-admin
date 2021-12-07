@@ -8,10 +8,12 @@ export default function UserModel(props) {
                           <br />
                           <ul className='profile-list'>
                           <li><b>Name</b> : {props.details.name}</li>
-                          <li><b>mobile</b> : {props.details.mobile}</li>
-                          <li><b>join@</b> : {props.details.createdAt}</li>
-                          <li><b>status</b> : {props.details.userState}</li>
-                          <li><b>last login</b> : {props.details.lastLogin}</li>
+                          <li><b>Unique ID</b> : {props.details.uId}</li>
+                          <li><b>Mobile</b> : {props.details.mobile}</li>
+                          <li><b>Join@</b> : {props.details.createdAt}</li>
+                          <li><b>Lat Modified@</b> : {props.details.lastModified}</li>
+                          <li><b>Status</b> : {props.details.userState}</li>
+                          <li><b>Last login</b> : {props.details.lastLogin}</li>
                           </ul>
                           <button type="button" className='close-btn' onClick={()=>{props.onClose()}}>X</button>
                         </div>
