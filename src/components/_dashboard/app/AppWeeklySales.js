@@ -55,6 +55,9 @@ export default function AppWeeklySales(props) {
   const [card, setCard] = useState(false);
   console.log(props)
   return (
+
+
+    
     <RootStyle onMouseOver={() => { setCard(true) }} onMouseLeave={() => { setCard(false) }} bc = {props.bc}>
   
       <IconWrapperStyle>
