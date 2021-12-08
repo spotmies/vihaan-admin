@@ -251,12 +251,21 @@ export default function User() {
                       <TableCell align="left">{user.mobile}</TableCell>
                       <TableCell align="left">{user.createdAt}</TableCell>
                       {/* <TableCell align="left">{user.isActive ? 'Yes' : 'No'}</TableCell> */}
-                      <TableCell align="left">
+                      <TableCell
+                        align="left"
+                        onClick={() => {
+                          if (user.userState === "active") {
+                            return;
+                          }
+                          UserStore.userBanBlock("active", user.uId);
+                        }}
+                      >
                         <Label
                           variant="ghost"
                           color={
-                            (user.userState === "banned" && "error") ||
-                            "success"
+                            user.userState == "ban"
+                              ? "warning":
+                              user.userState == "block" ? "error": "success"
                           }
                         >
                           {sentenceCase(user.userState)}
@@ -265,8 +274,17 @@ export default function User() {
 
                       <TableCell align="right">
                         <UserMoreMenu
+                          onView={() => {
+                            selectedItem(user);
+                          }}
                           onDelete={() => {
                             UserStore.deleteUser(user.uId);
+                          }}
+                          onBan={() => {
+                            UserStore.userBanBlock("ban", user.uId);
+                          }}
+                          onBlock={() => {
+                            UserStore.userBanBlock("block", user.uId);
                           }}
                         />
                       </TableCell>
