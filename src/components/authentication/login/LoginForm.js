@@ -1,10 +1,16 @@
-import * as Yup from 'yup';
-import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { Icon } from '@iconify/react';
-import eyeFill from '@iconify/icons-eva/eye-fill';
-import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import * as Yup from "yup";
+import { useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useFormik, Form, FormikProvider } from "formik";
+import firebase from "../../../firebase";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
+import { Icon } from "@iconify/react";
+import eyeFill from "@iconify/icons-eva/eye-fill";
+import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 // material
 import {
   Link,
@@ -13,54 +19,103 @@ import {
   TextField,
   IconButton,
   InputAdornment,
-  FormControlLabel
-} from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+  FormControlLabel,
+} from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
+  const [mobile, setMobile] = useState();
 
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
-  });
+  // const LoginSchema = Yup.object().shape({
+  //   email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+  //   password: Yup.string().required('Password is required')
+  // });
+
+  const handleChange = (e) => {
+    setMobile(e.target.value);
+    console.log(mobile);
+  };
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
-      remember: true
+      number: "",
     },
-    validationSchema: LoginSchema,
+    // validationSchema: LoginSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true });
-    }
+      navigate("/dashboard", { replace: true });
+    },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+    formik;
 
-  const handleShowPassword = () => {
-    setShowPassword((show) => !show);
+  const configureCaptcha = () => {
+    const auth = getAuth();
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          onSignInSubmit();
+          console.log("recaptcha verified");
+        },
+        defaultCountry: "IN",
+      },
+      auth
+    );
+    // To apply the default browser preference instead of explicitly setting it.
+    // firebase.auth().useDeviceLanguage();
+  };
+
+  // const handleShowPassword = () => {
+  //   setShowPassword((show) => !show);
+  // };
+  const onSignInSubmit = (e) => {
+    e.preventDefault();
+
+    configureCaptcha();
+    const phoneNumber = mobile;
+    console.log(phoneNumber);
+    
+    const appVerifier = window.recaptchaVerifier;
+
+    // const auth = getAuth();
+    firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+        console.log("otp has been sent");
+        // ...
+      })
+      .catch((error) => {
+        // Error; SMS not sent
+        // ...
+        console.log("otp error");
+      });
   };
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" noValidate onSubmit={onSignInSubmit}>
         <Stack spacing={3}>
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            type="number"
+            label="Mobile Number"
+            onChange={handleChange}
+            // {...getFieldProps("number")}
+            error={Boolean(touched.number && errors.number)}
+            helperText={touched.number && errors.number}
           />
-
-          <TextField
+          <div id="sign-in-button"></div>
+          {/* <TextField
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
@@ -77,10 +132,10 @@ export default function LoginForm() {
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
-          />
+          /> */}
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"
@@ -89,7 +144,7 @@ export default function LoginForm() {
           <Link component={RouterLink} variant="subtitle2" to="#">
             Forgot password?
           </Link>
-        </Stack>
+        </Stack> */}
 
         <LoadingButton
           fullWidth
