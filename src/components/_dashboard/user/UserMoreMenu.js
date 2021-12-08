@@ -9,6 +9,7 @@ import {MdBlock,  MdRemoveRedEye,MdHighlightOff} from 'react-icons/md';
 
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
+import set from 'date-fns/esm/set/index.js';
 
 // ----------------------------------------------------------------------
 
@@ -27,44 +28,96 @@ export default function UserMoreMenu(props) {
         anchorEl={ref.current}
         onClose={() => setIsOpen(false)}
         PaperProps={{
-          sx: { width: 200, maxWidth: '100%' }
+          sx: { width: 200, maxWidth: "100%" },
         }}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={props.onDelete}>
+        <MenuItem
+          sx={{ color: "text.secondary" }}
+          onClick={() => {
+            setIsOpen(false);
+            props.onDelete();
+          }}
+        >
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText
+            primary="Delete"
+            primaryTypographyProps={{ variant: "body2" }}
+          />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem
+          component={RouterLink}
+          to="#"
+          sx={{ color: "text.secondary" }}
+          onClick={() => {
+            setIsOpen(false);
+          }}
+        >
           <ListItemIcon>
             <Icon icon={editFill} width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText
+            primary="Edit"
+            primaryTypographyProps={{ variant: "body2" }}
+          />
         </MenuItem>
 
-         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={props.onView}>
+        <MenuItem
+          component={RouterLink}
+          to="#"
+          sx={{ color: "text.secondary" }}
+          onClick={() => {
+            setIsOpen(false);
+            props.onView();
+          }}
+        >
           <ListItemIcon>
-            <MdRemoveRedEye size='1.5REM' />
+            <MdRemoveRedEye size="1.5REM" />
           </ListItemIcon>
-          <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-        
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <MdBlock size='1.5REM'/>
-          </ListItemIcon>
-          <ListItemText primary="Ban" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText
+            primary="View"
+            primaryTypographyProps={{ variant: "body2" }}
+          />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem
+          component={RouterLink}
+          to="#"
+          sx={{ color: "text.secondary" }}
+          onClick={() => {
+            setIsOpen(false);
+            props.onBan();
+          }}
+        >
           <ListItemIcon>
-            <MdHighlightOff size='1.5REM'/>
+            <MdBlock size="1.5REM" />
           </ListItemIcon>
-          <ListItemText primary="Block" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText
+            primary="Ban"
+            primaryTypographyProps={{ variant: "body2" }}
+          />
+        </MenuItem>
+
+        <MenuItem
+          component={RouterLink}
+          to="#"
+          sx={{ color: "text.secondary" }}
+          onClick={() => {
+            setIsOpen(false);
+            props.onBlock();
+          }}
+        >
+          <ListItemIcon>
+            <MdHighlightOff size="1.5REM" />
+          </ListItemIcon>
+          <ListItemText
+            primary="Block"
+            primaryTypographyProps={{ variant: "body2" }}
+          />
         </MenuItem>
       </Menu>
     </>
