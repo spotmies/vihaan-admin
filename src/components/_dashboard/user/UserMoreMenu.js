@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // import viewIcon from 'react-icons/gr/GrView';
-import {MdBlock,  MdRemoveRedEye} from 'react-icons/md';
+import {MdBlock,  MdRemoveRedEye,MdHighlightOff} from 'react-icons/md';
 
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
@@ -46,7 +46,7 @@ export default function UserMoreMenu(props) {
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={props.onView}>
           <ListItemIcon>
             <MdRemoveRedEye size='1.5REM' />
           </ListItemIcon>
@@ -58,6 +58,13 @@ export default function UserMoreMenu(props) {
             <MdBlock size='1.5REM'/>
           </ListItemIcon>
           <ListItemText primary="Ban" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+
+        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+          <ListItemIcon>
+            <MdHighlightOff size='1.5REM'/>
+          </ListItemIcon>
+          <ListItemText primary="Block" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

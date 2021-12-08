@@ -227,7 +227,7 @@ export default function User() {
                           </TableCell>
                       
                           <TableCell align="right">
-                            <UserMoreMenu  onDelete={() => {UserStore.deleteUser(user.uId)}}/>
+                            <UserMoreMenu onView= {()=> { setPop(true)}}  onDelete={() => {UserStore.deleteUser(user.uId)}}/>
                           </TableCell>
                         </TableRow>
                       ))
