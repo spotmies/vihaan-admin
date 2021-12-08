@@ -37,13 +37,13 @@ export default function LoginForm() {
 
   const handleChange = (e) => {
     setMobile(e.target.value);
-    console.log(mobile);
+    console.log("mobile number:",mobile);
   };
 
   const formik = useFormik({
-    initialValues: {
-      number: "",
-    },
+    // initialValues: {
+    //   number: "",
+    // },
     // validationSchema: LoginSchema,
     onSubmit: () => {
       navigate("/dashboard", { replace: true });
