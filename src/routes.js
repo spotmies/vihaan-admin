@@ -14,14 +14,16 @@ import Orders from './pages/Orders';
 import Vehicleb from './pages/Vehicle-booking';
 import Feedback from './pages/Feedback&review';
 import NewProduct from './pages/NewProduct';
+import { useStores } from './state_management/store';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+ const { CommonStore } = useStores();
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: CommonStore.isUserAuthenticated ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
@@ -36,7 +38,7 @@ export default function Router() {
     },
     {
       path: '/',
-      element: <LogoOnlyLayout />,
+      element: !CommonStore.isUserAuthenticated ? <LogoOnlyLayout /> : <Navigate to="/dashboard" />,
       children: [
         { path: 'login', element: <Login /> },
         // { path: 'register', element: <Register /> },
