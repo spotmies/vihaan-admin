@@ -2,10 +2,10 @@ import { makeAutoObservable } from "mobx";
 import { apiGet, apiPostPut } from "../../resources/api_calls/api_methods";
 import apiUrl from "../../resources/api_calls/api_urls";
 
-class UserStore {
+class ProductStore {
   price = 1;
 
-  listUser = [];
+  listProducts = [];
   loading = false;
 
   constructor() {
@@ -23,31 +23,32 @@ class UserStore {
     this.price += response.body.length;
   };
 
-  fetchUserFromDB = async () => {
+  fetchProductFromDB = async () => {
     if (this.loading) {
       alert("loading try again later..");
       return;
     }
     console.log("getting users from db");
     this.loading = true;
-    const resp = await apiGet(apiUrl.listUsers);
+    const resp = await apiGet(apiUrl.listProducts);
     this.loading = false;
     if (resp.status === 200) {
-      this.listUser = resp.body;
+      this.listProducts = resp.body;
       console.log(resp.body);
     } else {
       console.log("went wroing", resp.status);
     }
   };
-  deleteUser = async (uId) => {
+
+  deleteProduct = async (uId) => {
     if (this.loading) {
-      alert("loading try again later..");
+      alert("loading Please wait..");
       return;
     }
     let body = {
       isDeleted: true,
     };
-    let path = `/user/users/${uId}`;
+    let path = `/product/products/${uId}`;
     this.loading = true;
     const resp = await apiPostPut(body, path, "PUT");
     this.loading = false;
@@ -57,17 +58,19 @@ class UserStore {
   };
 
   delete2 = (uId) => {
-    let remainingUsers = this.listUser.filter((user) => user.uId !== uId);
-    console.log(remainingUsers);
-    this.listUser = remainingUsers;
+    let remainingProds = this.listProducts.filter((user) => user._Id !== uId);
+    console.log(remainingProds);
+    this.listProducts = remainingProds;
   };
 
-  getUserDetById = (uId) => {
-     let rideUser = this.listUser.find((user) => user._id === uId);
-     console.log(rideUser);
-     return rideUser;
+  getProdDetById = (uId) => {
+     let rideProd = this.listProducts.find((user) => user._id.toString() == uId.toString());
+    if(rideProd == null|| rideProd == undefined) return " ";
+     console.log(rideProd);
+     return rideProd;
 
   }
+
 }
 
-export default UserStore;
+export default ProductStore;

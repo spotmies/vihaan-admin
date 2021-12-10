@@ -1,5 +1,7 @@
 // material
 import { Box, Grid, Container, Typography } from '@mui/material';
+import { useState,useEffect } from 'react';
+import { useStores } from '../state_management/store';
 import TodayRevenue from '../components/_dashboard/app/today_revenue';
 import palette from "../theme/palette";
 // components
@@ -22,6 +24,16 @@ import {
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  const {UserStore, ProductStore} = useStores();
+  
+  useEffect(() => {
+    if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
+   }, [])
+
+   useEffect(() => {
+    if(ProductStore.listProducts.length<1) ProductStore.fetchProductFromDB()
+   }, [])
+
   console.log(`"welcome here"`);
   return (
     <Page title="Dashboard">

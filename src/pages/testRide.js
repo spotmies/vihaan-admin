@@ -33,7 +33,7 @@ import USERLIST from '../_mocks_/user';
 import { useStores } from '../state_management/store';
 import Popup from './popup';
 import React from 'react';
-import UserModel from 'src/components/reusable/user_model';
+import TestRideModel from '../components/reusable/testRide_model';
 
 
 // ----------------------------------------------------------------------
@@ -80,7 +80,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function TestRides() {
 
-  const {TestRides} = useStores();
+  const {TestRides, UserStore, ProductStore} = useStores();
 
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
@@ -90,6 +90,7 @@ export default function TestRides() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedData, setSelectedData] = useState();
   const [Pop, setPop] = useState(false);
+  const [userData, setUserData] = useState();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -105,6 +106,15 @@ export default function TestRides() {
     }
     setSelected([]);
   };
+
+  useEffect(() => {
+    if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
+   }, [])
+
+   useEffect(() => {
+    if(ProductStore.listProducts.length<1) ProductStore.fetchProductFromDB()
+   }, [])
+
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -145,6 +155,8 @@ export default function TestRides() {
 
   const selectedItem = (item) => {
     setSelectedData(item);
+    setUserData(UserStore.getUserDetById(item.userDetails));
+    console.log(userData);
     setPop(true);
   }
 
@@ -206,16 +218,18 @@ export default function TestRides() {
                             />
                           </TableCell>
    
-                          <TableCell component="th" scope="row" padding="none" onClick= {() => selectedItem(ride)} style={{cursor:"pointer"}}>
+                          <TableCell component="th" scope="row" padding="none" onClick= {() =>{ selectedItem(ride)}} style={{cursor:"pointer"}}>
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={ride.bookingPlace.locality} src={ride.identityProof} />
+                              <Avatar alt={UserStore.getUserDetById(ride.userDetails).name} src={UserStore.getUserDetById(ride.userDetails).pic} />
                               <Typography variant="subtitle2" noWrap>
-                                {ride.bookingPlace.locality}
+                                {UserStore.getUserDetById(ride.userDetails).name}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{ride.driveId}</TableCell>
-                          <TableCell align="left">{ride.createdAt}</TableCell>
+                          <TableCell align="left">{UserStore.getUserDetById(ride.userDetails).mobile}</TableCell>
+                          <TableCell align="left">{ProductStore.getProdDetById(ride.vehicleDetails).basicDetails.modelName}</TableCell>
+                          <TableCell align="left">{ride.schedule}</TableCell>
+
                           {/* <TableCell align="left">{user.isActive ? 'Yes' : 'No'}</TableCell> */}
                           {/* <TableCell align="left">
                             <Label
@@ -227,7 +241,7 @@ export default function TestRides() {
                           </TableCell> */}
                       
                           <TableCell align="right">
-                            <UserMoreMenu  onDelete={() => {TestRides.deleteUser(ride.uId)}}/>
+                            <UserMoreMenu  onDelete={() => {TestRides.deleteUser(ride.productId)}}/>
                           </TableCell>
                         </TableRow>
                       ))
@@ -261,7 +275,7 @@ export default function TestRides() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />{ Pop ?
-          <UserModel details={selectedData} onClose={()=>{setPop(false)}} /> :null}
+          <TestRideModel details={selectedData} userDet={userData} onClose={()=>{setPop(false)}} /> :null}
         </Card>
       </Container>
     </Page>

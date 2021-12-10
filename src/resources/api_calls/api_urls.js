@@ -5,4 +5,5 @@ module.exports = Object.freeze({
   fetchAllProducts: "/product/all-products",
   listUsers: "/user/all-users",
   testRides: "/test-ride/all-test-rides",
+  listProducts: "/product/all-products"
 });

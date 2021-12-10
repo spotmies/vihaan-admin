@@ -149,8 +149,8 @@ export default function User() {
   }
 
   useEffect(() => {
-   if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
-  }, [])
+    if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
+   }, [])
   return useObserver(() => (
     <Page title="User">
       <Container>
