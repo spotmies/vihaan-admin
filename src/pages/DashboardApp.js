@@ -35,7 +35,7 @@ export default function DashboardApp() {
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             {/* <AppNewUsers /> */}
-            <AppWeeklySales tagName="active user" count="5" counts={[2,0,11]}/>
+            <AppWeeklySales tagName="active user" count="100" counts={[2,0,11]}/>
 
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
