@@ -38,7 +38,7 @@ const TOTAL = 1723315;
 
 export default function AppItemOrders() {
   return (
-    <RootStyle>
+    <RootStyle >
       <IconWrapperStyle>
         <Icon icon={windowsFilled} width={24} height={24} />
       </IconWrapperStyle>
