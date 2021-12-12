@@ -29,15 +29,21 @@ export default function LoginForm() {
   const navigate = useNavigate();
   // const [showPassword, setShowPassword] = useState(false);
   const [mobile, setMobile] = useState();
+  const [otpField, setOtpField] = useState(false);
+  const [otp, setOtp] = useState();
 
   // const LoginSchema = Yup.object().shape({
   //   email: Yup.string().email('Email must be a valid email address').required('Email is required'),
   //   password: Yup.string().required('Password is required')
   // });
+  const otpHandle = (e) => {
+    setOtp(e.target.value);
+    console.log("otp code:", otp);
+  }
 
   const handleChange = (e) => {
     setMobile(e.target.value);
-    console.log("mobile number:",mobile);
+    console.log("mobile number:", mobile);
   };
 
   const formik = useFormik({
@@ -79,43 +85,63 @@ export default function LoginForm() {
     e.preventDefault();
 
     configureCaptcha();
-    const phoneNumber = mobile;
+    const phoneNumber = "+91" + mobile;
     console.log(phoneNumber);
-    
+
     const appVerifier = window.recaptchaVerifier;
 
     // const auth = getAuth();
-    firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+    firebase
+      .auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
       .then((confirmationResult) => {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
+        setOtpField(true);
         console.log("otp has been sent");
         // ...
       })
       .catch((error) => {
         // Error; SMS not sent
         // ...
-        console.log("otp error");
+        console.log("otp error", error);
+      });
+  };
+
+  const onSubmitOtp = (e) => {
+    const code = otp
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        // User signed in successfully.
+        const user = result.user;
+        console.log(JSON.stringify(user))
+      })
+      .catch((error) => {
+        // User couldn't sign in (bad verification code?)
+        console.log("entered wrong otp")
       });
   };
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={onSignInSubmit}>
-        <Stack spacing={3}>
-          <TextField
-            fullWidth
-            autoComplete="username"
-            type="number"
-            label="Mobile Number"
-            onChange={handleChange}
-            // {...getFieldProps("number")}
-            error={Boolean(touched.number && errors.number)}
-            helperText={touched.number && errors.number}
-          />
-          <div id="sign-in-button"></div>
-          {/* <TextField
+      {!otpField ? (
+        <Form autoComplete="off" noValidate onSubmit={onSignInSubmit}>
+          <Stack spacing={3}>
+            <TextField
+              fullWidth
+              autoComplete="username"
+              type="number"
+              label="Mobile Number"
+              onChange={handleChange}
+              // {...getFieldProps("number")}
+              error={Boolean(touched.number && errors.number)}
+              helperText={touched.number && errors.number}
+            />
+
+            <div id="sign-in-button"></div>
+            {/* <TextField
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
@@ -133,9 +159,9 @@ export default function LoginForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           /> */}
-        </Stack>
+          </Stack>
 
-        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+          {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"
@@ -146,16 +172,44 @@ export default function LoginForm() {
           </Link>
         </Stack> */}
 
-        <LoadingButton
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-          loading={isSubmitting}
-        >
-          Login
-        </LoadingButton>
-      </Form>
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
+            Login
+          </LoadingButton>
+        </Form>
+      ) : (
+        <Form autoComplete="off" noValidate onSubmit={onSubmitOtp}>
+          <Stack spacing={3}>
+            <TextField
+              fullWidth
+              autoComplete="otp"
+              type="number"
+              label="Enter OTP"
+              onChange={otpHandle}
+              // {...getFieldProps("number")}
+              error={Boolean(touched.number && errors.number)}
+              helperText={touched.number && errors.number}
+            />
+
+            {/* <div id="sign-in-button"></div> */}
+          </Stack>
+
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
+            Submit
+          </LoadingButton>
+        </Form>
+      )}
     </FormikProvider>
   );
 }
