@@ -39,7 +39,7 @@ export default function LoginForm() {
   const otpHandle = (e) => {
     setOtp(e.target.value);
     console.log("otp code:", otp);
-  }
+  };
 
   const handleChange = (e) => {
     setMobile(e.target.value);
@@ -110,17 +110,18 @@ export default function LoginForm() {
   };
 
   const onSubmitOtp = (e) => {
-    const code = otp
+    const code = otp;
     window.confirmationResult
       .confirm(code)
       .then((result) => {
         // User signed in successfully.
         const user = result.user;
-        console.log(JSON.stringify(user))
+        console.log(JSON.stringify(user));
+        navigate("/dashboard", { replace: true });
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
-        console.log("entered wrong otp")
+        console.log("entered wrong otp");
       });
   };
 
@@ -183,7 +184,12 @@ export default function LoginForm() {
           </LoadingButton>
         </Form>
       ) : (
-        <Form autoComplete="off" noValidate onSubmit={onSubmitOtp}>
+        <Form
+          autoComplete="off"
+          noValidate
+          onSubmit={onSubmitOtp}
+          value={formik}
+        >
           <Stack spacing={3}>
             <TextField
               fullWidth
