@@ -49,7 +49,7 @@ export default function UserMoreMenu(props) {
           />
         </MenuItem>
 
-        <MenuItem
+        {/* <MenuItem
           component={RouterLink}
           to="#"
           sx={{ color: "text.secondary" }}
@@ -64,7 +64,7 @@ export default function UserMoreMenu(props) {
             primary="Edit"
             primaryTypographyProps={{ variant: "body2" }}
           />
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem
           component={RouterLink}
