@@ -41,9 +41,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
-  useEffect(() => {
-   alert('Click on login button to login');
-  }, []);
+
   return (
     <RootStyle title="Login | Minimal-UI">
       <AuthLayout>

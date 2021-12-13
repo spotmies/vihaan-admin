@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useFormik, Form, FormikProvider } from "formik";
 import firebase from "../../../firebase";
@@ -29,24 +29,18 @@ import { useStores } from "../../../state_management/store";
 export default function LoginForm() {
   const { CommonStore } = useStores();
   const navigate = useNavigate();
-  // const [showPassword, setShowPassword] = useState(false);
-  const [mobile, setMobile] = useState();
+
   const [otpField, setOtpField] = useState(false);
-  const [otp, setOtp] = useState();
 
-  // const LoginSchema = Yup.object().shape({
-  //   email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-  //   password: Yup.string().required('Password is required')
-  // });
-  const otpHandle = (e) => {
-    setOtp(e.target.value);
-    console.log("otp code:", otp);
-  };
+  const mobileRef = useRef();
+  const otpRef = useRef();
 
-  const handleChange = (e) => {
-    setMobile(e.target.value);
-    console.log("mobile number:", mobile);
-  };
+  useEffect(() => {
+    if (otpField) {
+      otpRef.current.value = "";
+      otpRef.current.focus();
+    }
+  }, [otpField]);
 
   const formik = useFormik({
     // initialValues: {
@@ -69,7 +63,7 @@ export default function LoginForm() {
         size: "invisible",
         callback: (response) => {
           // reCAPTCHA solved, allow signInWithPhoneNumber.
-          onSignInSubmit();
+          //  onSignInSubmit();
           console.log("recaptcha verified");
         },
         defaultCountry: "IN",
@@ -83,11 +77,11 @@ export default function LoginForm() {
   // const handleShowPassword = () => {
   //   setShowPassword((show) => !show);
   // };
-  const onSignInSubmit = (e) => {
+  const onSignInSubmit = async (e) => {
+    console.log(mobileRef.current.value);
     e.preventDefault();
-
     configureCaptcha();
-    const phoneNumber = "+91" + mobile;
+    const phoneNumber = "+91" + mobileRef.current.value;
     console.log(phoneNumber);
 
     const appVerifier = window.recaptchaVerifier;
@@ -107,44 +101,54 @@ export default function LoginForm() {
       .catch((error) => {
         // Error; SMS not sent
         // ...
+        alert(error);
         console.log("otp error", error);
       });
   };
 
   const onSubmitOtp = (e) => {
-    const code = otp;
+    e.preventDefault();
+    const code = otpRef.current.value;
     window.confirmationResult
       .confirm(code)
       .then((result) => {
         // User signed in successfully.
         const user = result.user;
         console.log(JSON.stringify(user));
+        CommonStore.login();
         navigate("/dashboard", { replace: true });
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
         console.log("entered wrong otp");
+        alert("Wrong OTP", error);
       });
   };
 
   return (
-    <FormikProvider value={formik}>
+    <div>
       {!otpField ? (
-        <Form autoComplete="off" noValidate onSubmit={onSignInSubmit}>
-          <Stack spacing={3}>
-            <TextField
-              fullWidth
-              autoComplete="username"
-              type="number"
-              label="Mobile Number"
-              onChange={handleChange}
-              // {...getFieldProps("number")}
-              error={Boolean(touched.number && errors.number)}
-              helperText={touched.number && errors.number}
-            />
+        <FormikProvider value={formik}>
+          <Form autoComplete="off"  onSubmit={onSignInSubmit}>
+            <Stack spacing={3}>
+              <TextField
+                fullWidth
+                autoComplete="username"
+                type="number"
+                label="Mobile Number"
+                onInput = {(e) =>{
+                  e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+              }}
+                
+                inputRef={mobileRef}
+                // onChange={handleChange}
+                // {...getFieldProps("number")}
+                error={Boolean(touched.number && errors.number)}
+                helperText={touched.number && errors.number}
+              />
 
-            <div id="sign-in-button"></div>
-            {/* <TextField
+              <div id="sign-in-button"></div>
+              {/* <TextField
             fullWidth
             autoComplete="current-password"
             type={showPassword ? "text" : "password"}
@@ -162,9 +166,9 @@ export default function LoginForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           /> */}
-          </Stack>
+            </Stack>
 
-          {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+            {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <FormControlLabel
             control={
               <Checkbox
@@ -180,49 +184,59 @@ export default function LoginForm() {
           </Link>
         </Stack> */}
 
-          <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
-            Login
-          </LoadingButton>
-        </Form>
-      ) : (
-        <Form
-          autoComplete="off"
-          noValidate
-          onSubmit={onSubmitOtp}
-          value={formik}
-        >
-          <Stack spacing={3}>
-            <TextField
+            <LoadingButton
               fullWidth
-              autoComplete="otp"
-              type="number"
-              label="Enter OTP"
-              onChange={otpHandle}
-              // {...getFieldProps("number")}
-              error={Boolean(touched.number && errors.number)}
-              helperText={touched.number && errors.number}
-            />
+              size="large"
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+            >
+              Login
+            </LoadingButton>
+          </Form>
+        </FormikProvider>
+      ) : (
+        <FormikProvider value={formik}>
+          <Form
 
-            {/* <div id="sign-in-button"></div> */}
-          </Stack>
-
-          <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
+            autoComplete="off"
+            noValidate
+            onSubmit={onSubmitOtp}
+            // value={formik}
           >
-            Submit
-          </LoadingButton>
-        </Form>
+            <Stack spacing={3}>
+              <TextField
+                fullWidth
+                autoComplete="otp"
+                inputRef={otpRef}
+                type="number"
+                defaultValue=""
+                label="Enter OTP"
+                onInput = {(e) =>{
+                  e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+              }}
+                // onChange={otpHandle}
+                // {...getFieldProps("number")}
+                // error={Boolean(touched.number && errors.number)}
+                // helperText={touched.number && errors.number}
+              />
+
+              {/* <div id="sign-in-button"></div> */}
+              <div></div>
+            </Stack>
+
+            <LoadingButton
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+            >
+              Submit
+            </LoadingButton>
+          </Form>
+        </FormikProvider>
       )}
-    </FormikProvider>
+    </div>
   );
 }

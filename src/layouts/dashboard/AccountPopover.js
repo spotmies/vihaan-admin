@@ -19,6 +19,7 @@ import {
 import MenuPopover from "../../components/MenuPopover";
 //
 import account from "../../_mocks_/account";
+import firebase from "../../firebase";
 
 import { useStores } from "../../state_management/store";
 
@@ -55,6 +56,21 @@ export default function AccountPopover() {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const signout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        console.log("signout success");
+        CommonStore.logout();
+        navigate("/login", { replace: true });
+      })
+      .catch(function (error) {
+        console.log("signout error", error);
+        alert("Something went wrong please try again");
+      });
   };
 
   return (
@@ -126,10 +142,7 @@ export default function AccountPopover() {
             fullWidth
             color="inherit"
             variant="outlined"
-            onClick={() => {
-              CommonStore.logout();
-              navigate("/login", { replace: true });
-            }}
+            onClick={signout}
           >
             Logout
           </Button>
