@@ -171,7 +171,7 @@ export default function User() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            User
+            Users
           </Typography>
           <Button
             variant="contained"

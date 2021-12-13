@@ -15,6 +15,7 @@ import Vehicleb from './pages/Vehicle-booking';
 import Feedback from './pages/Feedback&review';
 import NewProduct from './pages/NewProduct';
 import { useStores } from './state_management/store';
+import TestRides from './pages/testRide'
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +33,8 @@ export default function Router() {
         { path: 'orders', element: <Orders /> },
         { path: 'vehicle-booking', element: <Vehicleb /> },
         { path: 'feedback-review', element: <Feedback /> },
-        { path: 'new-product', element: <NewProduct />}
+        { path: 'new-product', element: <NewProduct />},
+        { path: 'test-ride-booking', element: <TestRides />}
         // { path: 'blog', element: <Blog /> }
       ]
     },
