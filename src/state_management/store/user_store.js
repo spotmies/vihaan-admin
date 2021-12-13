@@ -62,6 +62,13 @@ class UserStore {
     this.listUser = remainingUsers;
   };
 
+  getUserDetById = (uId) => {
+     let rideUser = this.listUser.find((user) => user._id === uId);
+     console.log(rideUser);
+     return rideUser;
+
+  }
+
   userBanBlock = async (lUserState, uId) => {
     if (this.loading) {
       alert("loading try again later..");
@@ -84,5 +91,8 @@ class UserStore {
      }
   };
 }
+
+
+
 
 export default UserStore;

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // material
 import { Box } from '@mui/material';
-import logo from './vihaan.png';
+import logo from './VE-logo.jpg';
 
 // ----------------------------------------------------------------------
 
@@ -10,5 +10,5 @@ Logo.propTypes = {
 };
 
 export default function Logo({ sx }) {
-  return <Box component="img" src={logo} sx={{ width: 40, height: 40, ...sx }} />;
+  return <Box component="img" src={logo} sx={{ width: 60, height: 60, ...sx }} />;
 }
