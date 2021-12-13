@@ -3,6 +3,7 @@ import Store1 from "./user_store";
 import Store2 from "./product_store";
 import TestRides from "./testRide_store";
 import ProductStore from "./product_store";
+import CommonStore from "./common_store";
 
 class RootStore {
   constructor() {
@@ -10,6 +11,7 @@ class RootStore {
     this.Store2 = new Store2(this);
     this.TestRides = new TestRides(this);
     this.ProductStore = new ProductStore(this);
+    this.CommonStore = new CommonStore(this)
   }
 }
 
