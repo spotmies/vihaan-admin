@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 class CommonStore {
   
-  isUserAuthenticated = true;
+  isUserAuthenticated = false;
 
   constructor() {
     makeAutoObservable(this);
