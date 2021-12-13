@@ -35,9 +35,9 @@ import {
 //
 import USERLIST from "../_mocks_/user";
 import { useStores } from "../state_management/store";
-import Popup from "./popup";
 import React from "react";
 import UserModel from "src/components/reusable/user_model";
+import { dateFormat, format } from "src/utils/common";
 
 // ----------------------------------------------------------------------
 
@@ -249,8 +249,10 @@ export default function User() {
                         </Stack>
                       </TableCell>
                       <TableCell align="left">{user.mobile}</TableCell>
-                      <TableCell align="left">{user.createdAt}</TableCell>
-                      {/* <TableCell align="left">{user.isActive ? 'Yes' : 'No'}</TableCell> */}
+                      <TableCell align="left">
+                        {dateFormat(user?.createdAt, format[1])}
+                      </TableCell>
+                      {/* <TableCell align="left">{user.isActive ? Truth.YES :  Truth.NO}</TableCell> */}
                       <TableCell
                         align="left"
                         onClick={() => {
@@ -264,8 +266,10 @@ export default function User() {
                           variant="ghost"
                           color={
                             user.userState == "ban"
-                              ? "warning":
-                              user.userState == "block" ? "error": "success"
+                              ? "warning"
+                              : user.userState == "block"
+                              ? "error"
+                              : "success"
                           }
                         >
                           {sentenceCase(user.userState)}
