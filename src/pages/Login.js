@@ -9,6 +9,7 @@ import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
 import { LoginForm } from '../components/authentication/login';
 import AuthSocial from '../components/authentication/AuthSocial';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +41,9 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
+  useEffect(() => {
+   alert('Click on login button to login');
+  }, []);
   return (
     <RootStyle title="Login | Minimal-UI">
       <AuthLayout>

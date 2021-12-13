@@ -22,10 +22,12 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { useStores } from "../../../state_management/store";
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
+  const { CommonStore } = useStores();
   const navigate = useNavigate();
   // const [showPassword, setShowPassword] = useState(false);
   const [mobile, setMobile] = useState();
@@ -145,9 +147,9 @@ export default function LoginForm() {
             {/* <TextField
             fullWidth
             autoComplete="current-password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             label="Password"
-            {...getFieldProps('password')}
+            {...getFieldProps("password")}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -155,7 +157,7 @@ export default function LoginForm() {
                     <Icon icon={showPassword ? eyeFill : eyeOffFill} />
                   </IconButton>
                 </InputAdornment>
-              )
+              ),
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
@@ -164,7 +166,12 @@ export default function LoginForm() {
 
           {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
+            control={
+              <Checkbox
+                {...getFieldProps("remember")}
+                checked={values.remember}
+              />
+            }
             label="Remember me"
           />
 
