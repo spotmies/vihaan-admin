@@ -68,7 +68,6 @@ class UserStore {
      return rideUser;
 
   }
-}
 
   userBanBlock = async (lUserState, uId) => {
     if (this.loading) {
@@ -91,6 +90,9 @@ class UserStore {
        alert(`something went wrong please try again.....${resp.status}`)
      }
   };
+}
+
+
 
 
 export default UserStore;
