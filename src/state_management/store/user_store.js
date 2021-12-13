@@ -70,4 +70,27 @@ class UserStore {
   }
 }
 
+  userBanBlock = async (lUserState, uId) => {
+    if (this.loading) {
+      alert("loading try again later..");
+      return;
+    }
+    const body = {
+      userState: lUserState,
+    };
+    const path = `/user/users/${uId}`;
+    this.loading = true;
+    const resp = await apiPostPut(body, path, "PUT");
+    this.loading = false;
+    if (resp.status === 200 || resp.status === 204 || resp.status===403){
+     const index = this.listUser.findIndex(user => user.uId === uId ) 
+     this.listUser[index].userState = lUserState;
+     }
+     else
+     {
+       alert(`something went wrong please try again.....${resp.status}`)
+     }
+  };
+
+
 export default UserStore;
