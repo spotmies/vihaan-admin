@@ -1,12 +1,12 @@
 .card{
-    height: 350px;
+    height: 380px;
     width: 800px;
     border-radius: 3px;
     background: linear-gradient(#E0EAFC,#CFDEF3);
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 40%);
     position: fixed;
-    top: calc(50% - 110px);
-    left: calc(50% - 26.2%);
+    top: calc(50% - 140px);
+    left: calc(50% - 26%);
     padding: 10px;
 }
 
