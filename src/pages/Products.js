@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
 import { useState,useEffect } from 'react';
+import { useObserver } from 'mobx-react';
 
 // material
 import { Container, Stack, Typography } from '@mui/material';
@@ -14,15 +15,16 @@ import {
 //
 import PRODUCTS from '../_mocks_/products';
 // 
-import constants from "../resources/api_calls/api_urls";
-import {apiGet} from "../resources/api_calls/api_methods";
+import {useStores} from "../state_management/store/index";
+
+
 
 // ----------------------------------------------------------------------
 
 export default function EcommerceShop() {
   const [openFilter, setOpenFilter] = useState(false);
-  const [getFetchedData, setGetFetchedData] = useState([]);
-  const fetchedProductData =[]
+  const localProductList=[]
+ 
 
   const formik = useFormik({
     initialValues: {
@@ -52,32 +54,33 @@ export default function EcommerceShop() {
     resetForm();
   };
 
-  
+  const {ProductStore} =  useStores()
+  console.log(ProductStore)
   useEffect(()=>{
-    apiGet(constants.fetchAllProducts).then(res=>res.body)
-    .then(
-      datas=>setGetFetchedData(datas)
-      )
+    if(ProductStore.listProducts.length>0)
+      return
+
+    ProductStore.addAndFetchedProductFromAPI()
+   
             
     },[])
 
-    getFetchedData.map(
-      data=>fetchedProductData.push(
+    console.log("hello", ProductStore.listProducts)
+    ProductStore.listProducts.map(
+      data=>localProductList.push(
         {
           id : data._id,
           name : data?.basicDetails?.modelName,
           price : data?.basicDetails?.price,
           cover : data?.basicDetails?.media[0]?.mediaUrl,
-          colors: [data?.colorDetails?.primaryColor]
+          colors: [ data?.colorDetails?.primaryColor]
+         
         }
       )
-      )
-    
-    console.log('fetchedProductData',fetchedProductData)
+    )
 
-  
 
-  return (
+  return useObserver (()=>(
     <Page title="Dashboard: Products">
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
@@ -103,11 +106,11 @@ export default function EcommerceShop() {
           </Stack>
         </Stack>
           {/* Displaying Fetched Data */}
-        <ProductList products={fetchedProductData} />
+        <ProductList products={localProductList} />
 
         <ProductList products={PRODUCTS} />
         {/* <ProductCartWidget /> */}
       </Container>
     </Page>
-  );
+  ));
 }
