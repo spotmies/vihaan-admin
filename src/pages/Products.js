@@ -13,7 +13,7 @@ import {
   ProductFilterSidebar
 } from '../components/_dashboard/products';
 //
-import PRODUCTS from '../_mocks_/products';
+// import PRODUCTS from '../_mocks_/products';
 // 
 import {useStores} from "../state_management/store/index";
 
@@ -73,7 +73,8 @@ export default function EcommerceShop() {
           name : data?.basicDetails?.modelName,
           price : data?.basicDetails?.price,
           cover : data?.basicDetails?.media[0]?.mediaUrl,
-          colors: [ data?.colorDetails?.primaryColor]
+          colors: [ data?.colorDetails?.primaryColor],
+          isActive : data?.isActive
          
         }
       )
@@ -108,7 +109,7 @@ export default function EcommerceShop() {
           {/* Displaying Fetched Data */}
         <ProductList products={localProductList} />
 
-        <ProductList products={PRODUCTS} />
+        {/* <ProductList products={PRODUCTS} /> */}
         {/* <ProductCartWidget /> */}
       </Container>
     </Page>
