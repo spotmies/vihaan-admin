@@ -17,6 +17,14 @@ class ProductStore {
     console.log(this.price);
   }
 
+  addAndFetchedProductFromAPI = async () => {
+    const response = await apiGet(apiUrl.fetchAllProducts);
+    
+    response.body.map(
+      data=>this.listProducts.push(data)
+    )        
+  };
+
   fetchProducts = async () => {
     const response = await apiGet(apiUrl.fetchAllProducts);
     console.log("respo", response);
