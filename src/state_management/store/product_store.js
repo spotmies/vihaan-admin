@@ -19,10 +19,12 @@ class ProductStore {
 
   addAndFetchedProductFromAPI = async () => {
     const response = await apiGet(apiUrl.fetchAllProducts);
+    if(response.status===200){
+      response.body.map(
+        data=>this.listProducts.push(data)
+        )        
+    }
     
-    response.body.map(
-      data=>this.listProducts.push(data)
-    )        
   };
 
   fetchProducts = async () => {
