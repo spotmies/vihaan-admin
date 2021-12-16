@@ -50,6 +50,7 @@ class ProductStore {
     }
   };
 
+
   deleteProduct = async (uId) => {
     if (this.loading) {
       alert("loading Please wait..");
@@ -80,6 +81,33 @@ class ProductStore {
      return rideProd;
 
   }
+
+  editProduct = async (uId,editedData) => {
+    if (this.loading) {
+      alert("loading Please wait..");
+      return;
+    }
+    let dataToBeUpdate =this.getProdDetById(uId)
+    let body = {
+      ...dataToBeUpdate,
+      ...editedData
+    };
+    // let path = `/product/products/${uId}`;
+    // this.loading = true;
+    // const resp = await apiPostPut(body, path, "PUT");
+    // this.loading = false;
+    // // if (resp.status === 200 || resp.status === 204) {
+      // //   this.delete2(uId);
+      // // }
+      return console.log("edited data",body)
+    };
+    
+  editProductLocalStore = async (uId,editedData) => {
+    let dataToBeUpdate =this.getProdDetById(uId)
+    const indexTobeEdited=this.productList.indexOf(dataToBeUpdate)
+    this.listProducts[indexTobeEdited] = {...this.listProducts[indexTobeEdited] ,...editedData}
+  }
+
 
 }
 
