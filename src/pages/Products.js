@@ -55,17 +55,14 @@ export default function EcommerceShop() {
   };
 
   const {ProductStore} =  useStores()
-  console.log(ProductStore)
+ 
   useEffect(()=>{
     if(ProductStore.listProducts.length>0)
       return
 
-    ProductStore.addAndFetchedProductFromAPI()
-   
-            
+    ProductStore.fetchProductFromDB()            
     },[])
 
-    console.log("hello", ProductStore.listProducts)
     ProductStore.listProducts.map(
       data=>localProductList.push(
         {
