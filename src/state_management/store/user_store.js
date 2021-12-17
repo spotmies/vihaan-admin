@@ -63,11 +63,12 @@ class UserStore {
   };
 
   getUserDetById = (uId) => {
-     let rideUser = this.listUser.find((user) => user._id === uId);
-     console.log(rideUser);
-     return rideUser;
-
-  }
+    let userRide = this.listUser.findIndex((user) => user._id == uId);
+    console.log(userRide);
+    if (userRide < 0) return "Test Ride not found";
+    return this.listUser[userRide];
+    //
+  };
 }
 
 export default UserStore;
