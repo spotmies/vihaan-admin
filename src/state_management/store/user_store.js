@@ -63,32 +63,11 @@ class UserStore {
   };
 
   getUserDetById = (uId) => {
-     let rideUser = this.listUser.find((user) => user._id === uId);
-     console.log(rideUser);
-     return rideUser;
-
-  }
-
-  userBanBlock = async (lUserState, uId) => {
-    if (this.loading) {
-      alert("loading try again later..");
-      return;
-    }
-    const body = {
-      userState: lUserState,
-    };
-    const path = `/user/users/${uId}`;
-    this.loading = true;
-    const resp = await apiPostPut(body, path, "PUT");
-    this.loading = false;
-    if (resp.status === 200 || resp.status === 204 || resp.status===403){
-     const index = this.listUser.findIndex(user => user.uId === uId ) 
-     this.listUser[index].userState = lUserState;
-     }
-     else
-     {
-       alert(`something went wrong please try again.....${resp.status}`)
-     }
+    let userRide = this.listUser.findIndex((user) => user._id == uId);
+    console.log(userRide);
+    if (userRide < 0) return "Test Ride not found";
+    return this.listUser[userRide];
+    //
   };
 }
 
