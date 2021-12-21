@@ -52,8 +52,7 @@ class ProductStore {
     this.activeProductsList= this.listProducts.filter(el=>el.isActive===true)
   };
 
-
-  deleteProduct = async (uId) => {
+  deleteProduct = async (pId) => {
     if (this.loading) {
       alert("loading Please wait..");
       return;
@@ -61,30 +60,32 @@ class ProductStore {
     let body = {
       isDeleted: true,
     };
-    let path = `/product/products/${uId}`;
+    let path = `/product/products/${pId}`;
     this.loading = true;
     const resp = await apiPostPut(body, path, "PUT");
     this.loading = false;
     if (resp.status === 200 || resp.status === 204) {
-      this.delete2(uId);
+      this.delete2(pId);
     }
   };
 
-  delete2 = (uId) => {
-    let remainingProds = this.listProducts.filter((user) => user._Id !== uId);
+  delete2 = (pId) => {
+    let remainingProds = this.listProducts.filter((user) => user._Id !== pId);
     console.log(remainingProds);
     this.listProducts = remainingProds;
   };
 
-  getProdDetById = (uId) => {
-     let rideProd = this.listProducts.find((user) => user._id.toString() == uId.toString());
-    if(rideProd == null|| rideProd == undefined) return " ";
+  getProdDetById = (pId) => {
+    let index = this.listProducts.findIndex((prod) => prod._id == pId);
+    if(index < 0) return "no prod here";
+    //  let rideProd = this.listProducts.find((user) => user._id.toString() == pId.toString());
+    // if(rideProd == null|| rideProd == undefined) return " ";
     //  console.log(rideProd);
-     return rideProd;
+     return this.listProducts[index];
 
   }
 
-  editProductInDB = async (uId,editedData) => {
+  editProductInDB = async (pId,editedData) => {
     if (this.loading) {
       alert("loading Please wait..");
       return;
@@ -92,7 +93,7 @@ class ProductStore {
     let body = {
       ...editedData
     };
-    let path = `/product/products/${uId}`;
+    let path = `/product/products/${pId}`;
     this.loading = true;
     const resp = await apiPostPut(body, path, "PUT");
     this.loading = false;
@@ -102,13 +103,13 @@ class ProductStore {
 
     };
     
-    editProductLocalStore = async(uId,editedData) => {
+    editProductLocalStore = async(pId,editedData) => {
 
-      let dataToBeUpdate =this.getProdDetById(uId)
+      let dataToBeUpdate =this.getProdDetById(pId)
       const indexTobeEdited=this.listProducts.indexOf(dataToBeUpdate)
       this.listProducts[indexTobeEdited] = {...dataToBeUpdate,...editedData}
       
-      const updateStatus =  this.editProductInDB(uId,editedData)
+      const updateStatus =  this.editProductInDB(pId,editedData)
       if(updateStatus!==200){
         this.listProducts[indexTobeEdited] = {...dataToBeUpdate}
       }

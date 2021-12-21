@@ -93,13 +93,15 @@ export default function DashboardApp() {
             <AppBugReports />
           </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* required but hidden */}
+
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits />
-          </Grid>
+          </Grid> */}
 
           {/* <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates />
@@ -113,9 +115,10 @@ export default function DashboardApp() {
             <AppNewsUpdate />
           </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+{/* same */}
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline />
-          </Grid>
+          </Grid> */}
 
           {/* <Grid item xs={12} md={6} lg={4}>
             <AppTrafficBySite />
