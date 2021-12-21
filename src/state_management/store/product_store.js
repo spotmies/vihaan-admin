@@ -4,9 +4,10 @@ import apiUrl from "../../resources/api_calls/api_urls";
 
 class ProductStore {
   price = 1;
-
+  showActiveProduct=false
   listProducts = [];
   loading = false;
+  activeProductsList= []
 
   constructor() {
     makeAutoObservable(this);
@@ -48,6 +49,7 @@ class ProductStore {
     } else {
       console.log("went wroing", resp.status);
     }
+    this.activeProductsList= this.listProducts.filter(el=>el.isActive===true)
   };
 
 
@@ -77,35 +79,73 @@ class ProductStore {
   getProdDetById = (uId) => {
      let rideProd = this.listProducts.find((user) => user._id.toString() == uId.toString());
     if(rideProd == null|| rideProd == undefined) return " ";
-     console.log(rideProd);
+    //  console.log(rideProd);
      return rideProd;
 
   }
 
-  editProduct = async (uId,editedData) => {
+  editProductInDB = async (uId,editedData) => {
     if (this.loading) {
       alert("loading Please wait..");
       return;
     }
-    let dataToBeUpdate =this.getProdDetById(uId)
     let body = {
-      ...dataToBeUpdate,
       ...editedData
     };
-    // let path = `/product/products/${uId}`;
-    // this.loading = true;
-    // const resp = await apiPostPut(body, path, "PUT");
-    // this.loading = false;
-    // // if (resp.status === 200 || resp.status === 204) {
-      // //   this.delete2(uId);
-      // // }
-      return console.log("edited data",body)
+    let path = `/product/products/${uId}`;
+    this.loading = true;
+    const resp = await apiPostPut(body, path, "PUT");
+    this.loading = false;
+    
+    return resp.status
+
+
     };
     
-  editProductLocalStore = async (uId,editedData) => {
-    let dataToBeUpdate =this.getProdDetById(uId)
-    const indexTobeEdited=this.productList.indexOf(dataToBeUpdate)
-    this.listProducts[indexTobeEdited] = {...this.listProducts[indexTobeEdited] ,...editedData}
+    editProductLocalStore = async(uId,editedData) => {
+
+      let dataToBeUpdate =this.getProdDetById(uId)
+      const indexTobeEdited=this.listProducts.indexOf(dataToBeUpdate)
+      this.listProducts[indexTobeEdited] = {...dataToBeUpdate,...editedData}
+      
+      const updateStatus =  this.editProductInDB(uId,editedData)
+      if(updateStatus!==200){
+        this.listProducts[indexTobeEdited] = {...dataToBeUpdate}
+      }
+            
+  }
+
+  setActiveProduct(){
+    this.activeProductsList= this.listProducts.filter(el=>el.isActive===true)
+
+  }
+  
+  getActiveProduct = () =>{
+    if(this.showActiveProduct){
+      return this.listProducts.filter((product) =>product.isActive===true)
+    }
+  }
+
+  addProductToDataBase = async(body) =>{
+    
+    let path = `"/product/new-products"`;
+    this.loading = true;
+    const resp = await apiPostPut(body, path, "POST");
+    this.loading = false;
+    return resp.status
+  
+  }
+  addProductToLocalStore = (body) =>{
+    
+    // this.listProducts.push(body)
+    const len =this.listProducts.length
+    this.listProducts[len] = body
+    const updateStatus = this.addProductToDataBase(body)
+
+    if (updateStatus !==200){
+      this.listProducts.pop()
+    }
+  
   }
 
 
