@@ -1,6 +1,11 @@
 import React from "react";
+import { Link } from 'react-router-dom';
+
 
 export default function TestRideModel(props) {
+  // const lat = {props.details.bookingLocation[0]};
+  // const long = {props.details.bookingLocation[1]};
+  // const Src = "https://google.co.in/maps/place" + lat + "," + long ;
   return (
     <>
       <div className="card">
@@ -31,7 +36,8 @@ export default function TestRideModel(props) {
             <b>Created At</b> : {props.details.schedule}
           </li>
           <li>
-            <b>URL</b> :<a href="https://google.co.in/maps/place/{props.details.bookingLocation[0]},{props.details.bookingLocation[1]}" target="blank">Click here</a>
+            <b>URL</b> :<a href={`https://google.co.in/maps/place/${props.details.bookingLocation[0]},${props.details.bookingLocation[1]}`} target="blank">Click here</a>
+            {/* <b>URL:</b><Link to="#" >Click here</Link> */}
           </li>
         </ul>
         <button
