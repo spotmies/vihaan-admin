@@ -4,6 +4,7 @@ import { Form, FormikProvider } from 'formik';
 import closeFill from '@iconify/icons-eva/close-fill';
 import roundClearAll from '@iconify/icons-ic/round-clear-all';
 import roundFilterList from '@iconify/icons-ic/round-filter-list';
+import { useObserver } from 'mobx-react';
 // material
 import {
   Box,
@@ -23,6 +24,7 @@ import {
 //
 import Scrollbar from '../../Scrollbar';
 import ColorManyPicker from '../../ColorManyPicker';
+import {useStores} from "../../../state_management/store/index";
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +34,7 @@ export const SORT_BY_OPTIONS = [
   { value: 'priceDesc', label: 'Price: High-Low' },
   { value: 'priceAsc', label: 'Price: Low-High' }
 ];
+export const FILTER_STATE_OPTIONS = ['Activated', 'Deleted'];
 export const FILTER_GENDER_OPTIONS = ['Men', 'Women', 'Kids'];
 export const FILTER_CATEGORY_OPTIONS = ['All', 'Shose', 'Apparel', 'Accessories'];
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
@@ -70,9 +73,22 @@ export default function ShopFilterSidebar({
 }) {
   const { values, getFieldProps, handleChange } = formik;
 
-  return (
+  // Method for active and delete category
+  const {ProductStore} =  useStores()
+  
+
+  const handleCheckedActivated = (boolValue) =>{
+    // Method for Displaying all the Activated Product
+    ProductStore.showActiveProduct = boolValue  
+    
+  }
+  const handleCheckedDeleted = (e) =>{
+    // Method for Displaying Deleted Product
+  }
+
+  return useObserver(()=>(
     <>
-      <Button
+      <Button 
         disableRipple
         color="inherit"
         endIcon={<Icon icon={roundFilterList} />}
@@ -111,11 +127,35 @@ export default function ShopFilterSidebar({
               <Stack spacing={3} sx={{ p: 3 }}>
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
+                    State
+                  </Typography>
+                  <FormGroup>
+                    {FILTER_STATE_OPTIONS.map((item) => (
+                      <FormControlLabel
+                      
+                        key={item}
+                        control={
+                          <Checkbox
+                          {...getFieldProps('state')}
+                          value={item}
+                          checked={values.state.includes(item)}
+                          onChangeCapture={handleCheckedActivated}
+                          />
+                        }
+                        label={item}
+                      />
+                    ))}
+                  </FormGroup>
+                </div>
+
+                <div>
+                  <Typography variant="subtitle1" gutterBottom>
                     Gender
                   </Typography>
                   <FormGroup>
                     {FILTER_GENDER_OPTIONS.map((item) => (
                       <FormControlLabel
+                      
                         key={item}
                         control={
                           <Checkbox
@@ -224,5 +264,5 @@ export default function ShopFilterSidebar({
         </Form>
       </FormikProvider>
     </>
-  );
+  ));
 }

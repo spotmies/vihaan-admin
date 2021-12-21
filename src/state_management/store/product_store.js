@@ -4,9 +4,10 @@ import apiUrl from "../../resources/api_calls/api_urls";
 
 class ProductStore {
   price = 1;
-
+  showActiveProduct=false
   listProducts = [];
   loading = false;
+  activeProductsList= []
 
   constructor() {
     makeAutoObservable(this);
@@ -19,10 +20,12 @@ class ProductStore {
 
   addAndFetchedProductFromAPI = async () => {
     const response = await apiGet(apiUrl.fetchAllProducts);
+    if(response.status===200){
+      response.body.map(
+        data=>this.listProducts.push(data)
+        )        
+    }
     
-    response.body.map(
-      data=>this.listProducts.push(data)
-    )        
   };
 
   fetchProducts = async () => {
@@ -46,6 +49,7 @@ class ProductStore {
     } else {
       console.log("went wroing", resp.status);
     }
+    this.activeProductsList= this.listProducts.filter(el=>el.isActive===true)
   };
 
   deleteProduct = async (pId) => {
@@ -80,6 +84,71 @@ class ProductStore {
      return this.listProducts[index];
 
   }
+
+  editProductInDB = async (pId,editedData) => {
+    if (this.loading) {
+      alert("loading Please wait..");
+      return;
+    }
+    let body = {
+      ...editedData
+    };
+    let path = `/product/products/${pId}`;
+    this.loading = true;
+    const resp = await apiPostPut(body, path, "PUT");
+    this.loading = false;
+    
+    return resp.status
+
+
+    };
+    
+    editProductLocalStore = async(pId,editedData) => {
+
+      let dataToBeUpdate =this.getProdDetById(pId)
+      const indexTobeEdited=this.listProducts.indexOf(dataToBeUpdate)
+      this.listProducts[indexTobeEdited] = {...dataToBeUpdate,...editedData}
+      
+      const updateStatus =  this.editProductInDB(pId,editedData)
+      if(updateStatus!==200){
+        this.listProducts[indexTobeEdited] = {...dataToBeUpdate}
+      }
+            
+  }
+
+  setActiveProduct(){
+    this.activeProductsList= this.listProducts.filter(el=>el.isActive===true)
+
+  }
+  
+  getActiveProduct = () =>{
+    if(this.showActiveProduct){
+      return this.listProducts.filter((product) =>product.isActive===true)
+    }
+  }
+
+  addProductToDataBase = async(body) =>{
+    
+    let path = `"/product/new-products"`;
+    this.loading = true;
+    const resp = await apiPostPut(body, path, "POST");
+    this.loading = false;
+    return resp.status
+  
+  }
+  addProductToLocalStore = (body) =>{
+    
+    // this.listProducts.push(body)
+    const len =this.listProducts.length
+    this.listProducts[len] = body
+    const updateStatus = this.addProductToDataBase(body)
+
+    if (updateStatus !==200){
+      this.listProducts.pop()
+    }
+  
+  }
+
 
 }
 
