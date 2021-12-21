@@ -2,17 +2,22 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
 // material
-import { Box, Card, Link, Typography, Stack, Switch, Menu, MenuItem} from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Switch, Menu, MenuItem,Button} from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
-import { AiFillEdit,AiFillDelete } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 //
 import Label from '../../Label';
 import ColorPreview from '../../ColorPreview';
-// Root Store
+// 
 import {useStores} from "../../../state_management/store/index";
+import { useObserver } from 'mobx-react';
+//Component
+import {   AddNewProduct} from '../../../components/_dashboard/products';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -77,18 +82,27 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { name, cover, price, colors, status, priceSale, isActive, id } = product;
+  const {  status, priceSale} = product;
+  const id = product._id;
+  
+  const {ProductStore} =  useStores()
+ 
+  let productFromStore = ProductStore.getProdDetById(id)
+  let name = productFromStore?.basicDetails?.modelName;
+  let price = productFromStore?.basicDetails?.price;
+  let cover = productFromStore?.basicDetails?.media[0]?.mediaUrl;
+  let colors = [ productFromStore?.colorDetails?.primaryColor];
+  // let isActive = productFromStore?.isActive;
+  let baseData = productFromStore
 
   // Method for Switch
-  const [switchChecked, setSwitchChecked] = useState(isActive);
+  const [activeState, setActiveState] = useState("")
 
-  const handleSwitchStateChange = (event,uId) => {
-    
-    setSwitchChecked(event.target.checked);
-    ProductStore.editProduct(uId,{"isActive":event.target.checked})    
+  const handleSwitchStateChange =  (event,uId) => {       
+    ProductStore.editProductLocalStore(uId,{"isActive":event.target.checked})    
+    setActiveState(event.target.checked)
+    ProductStore.setActiveProduct()    
   };
-
-  const {ProductStore} =  useStores()
 
   // Methods for more menu Option
   const [anchorEl, setAnchorEl] = useState(null);
@@ -104,20 +118,11 @@ export default function ShopProductCard({ product }) {
   };
 
   const handleDeleteProduct  = ()=>{
-    ProductStore.deleteProduct()    
+    ProductStore.deleteProduct(id)    
     handleClose()
   }
 
-  // const handleEditProduct  = ()=>{
-  //   ProductStore.deleteProduct()    
-  //   handleClose()
-  // }
- 
-
-  
-
-
-  return (
+  return useObserver(()=>(
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
         {status && (
@@ -146,6 +151,7 @@ export default function ShopProductCard({ product }) {
             </Typography>
           </Link>
           <div>
+            {/* More Menu for edit and delete Option */}
             <BsThreeDotsVertical
               id="demo-customized-button"
               aria-controls="demo-customized-menu"
@@ -164,15 +170,18 @@ export default function ShopProductCard({ product }) {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose} disableRipple>
-                <AiFillEdit />
-                &nbsp;
-                Edit
+              <MenuItem sx={{display :'flex'}}  onClick={handleClose} disableRipple>
+              <AddNewProduct style={{width:'100%'}}isEdit={true} editData={baseData}/>
               </MenuItem>
               <MenuItem onClick={handleDeleteProduct} disableRipple>
-                <AiFillDelete />
-                &nbsp;
-                Delete
+                <Button
+                  color="inherit"
+                  disableRipple
+                  startIcon={<AiFillDelete />}
+                  sx={{fontWeight:400,width:'100%'}}
+                >
+                  Delete				
+                </Button>                
               </MenuItem>
             </StyledMenu>
           </div>
@@ -180,7 +189,7 @@ export default function ShopProductCard({ product }) {
 
         <Switch 
           onChange={(e)=>handleSwitchStateChange(e,id)}
-          checked={switchChecked } 
+          checked={ productFromStore?.isActive } 
         />
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -202,5 +211,5 @@ export default function ShopProductCard({ product }) {
         </Stack>
       </Stack>
     </Card>
-  );
+  ));
 }

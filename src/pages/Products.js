@@ -4,13 +4,15 @@ import { useObserver } from 'mobx-react';
 
 // material
 import { Container, Stack, Typography } from '@mui/material';
+
 // components
 import Page from '../components/Page';
 import {
   ProductSort,
   ProductList,
   ProductCartWidget,
-  ProductFilterSidebar
+  ProductFilterSidebar,
+  AddNewProduct
 } from '../components/_dashboard/products';
 //
 // import PRODUCTS from '../_mocks_/products';
@@ -23,11 +25,14 @@ import {useStores} from "../state_management/store/index";
 
 export default function EcommerceShop() {
   const [openFilter, setOpenFilter] = useState(false);
-  const localProductList=[]
+ 
+
+  const {ProductStore} =  useStores()
  
 
   const formik = useFormik({
     initialValues: {
+      state:'',
       gender: '',
       category: '',
       colors: '',
@@ -54,28 +59,18 @@ export default function EcommerceShop() {
     resetForm();
   };
 
-  const {ProductStore} =  useStores()
  
-  useEffect(()=>{
+  useEffect(()=>{          
     if(ProductStore.listProducts.length>0)
       return
 
-    ProductStore.fetchProductFromDB()            
-    },[])
+    ProductStore.fetchProductFromDB()
+    
+  },[])
+  
 
-    ProductStore.listProducts.map(
-      data=>localProductList.push(
-        {
-          id : data._id,
-          name : data?.basicDetails?.modelName,
-          price : data?.basicDetails?.price,
-          cover : data?.basicDetails?.media[0]?.mediaUrl,
-          colors: [ data?.colorDetails?.primaryColor],
-          isActive : data?.isActive
-         
-        }
-      )
-    )
+  
+  
 
 
   return useObserver (()=>(
@@ -101,13 +96,22 @@ export default function EcommerceShop() {
               onCloseFilter={handleCloseFilter}
             />
             <ProductSort />
+            {/* Add */}
+            <AddNewProduct/>
           </Stack>
         </Stack>
-          {/* Displaying Fetched Data */}
-        <ProductList products={localProductList} />
+        
 
-        {/* <ProductList products={PRODUCTS} /> */}
-        {/* <ProductCartWidget /> */}
+          {
+            ProductStore.showActiveProduct?(
+
+              <ProductList products={ProductStore.activeProductsList} />
+            ):(
+
+              <ProductList products={ProductStore.listProducts} />
+            )
+          }
+
       </Container>
     </Page>
   ));
