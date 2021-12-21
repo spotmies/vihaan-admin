@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { apiGet, apiPostPut } from "../../resources/api_calls/api_methods";
+import { apiDelete, apiGet, apiPostPut } from "../../resources/api_calls/api_methods";
 import apiUrl from "../../resources/api_calls/api_urls";
 
 class TestRides {
@@ -39,27 +39,33 @@ class TestRides {
       console.log("went wroing", resp.status);
     }
   };
-  deleteUser = async (uId) => {
+
+  deleteRide = async (rId) => {
     if (this.loading) {
-      alert("loading try again later..");
+      alert("loading try again later ..");
       return;
     }
     let body = {
       isDeleted: true,
     };
-    let path = `/test-ride/test-rides/${uId}`;
+    let path = `/test-ride/test-rides/${rId}`;
     this.loading = true;
-    const resp = await apiPostPut(body, path, "PUT");
+    const resp = await apiDelete(path)
     this.loading = false;
+    console.log("deleted product")
     if (resp.status === 200 || resp.status === 204) {
-      this.delete2(uId);
+      this.delete2(rId);
     }
   };
 
-  delete2 = (uId) => {
-    let remainingRides = this.listUser.filter((ride) => ride.uId !== uId);
-    console.log(remainingRides);
-    this.testRides = remainingRides;
+  delete2 = (rId) => {
+    console.log("deleting local product")
+    var index = this.listRides.findIndex((ride) => ride.driveId === rId);
+    console.log(index);
+    if(index > -1 ) {
+      this.listRides.splice(index, 1);
+    }
+    //this.testRides = indexOf(index);
   };
 }
 

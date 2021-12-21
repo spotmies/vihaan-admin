@@ -32,7 +32,7 @@ export async function apiDelete(path) {
     await addHeaderWithOutBody("DELETE")
   );
   console.log(response);
-  const data = await response.json();
+  const data = response.status === 200 ? response.json() : {};
   return {body:data,status:response.status};
 }
 

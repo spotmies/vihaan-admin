@@ -23,36 +23,37 @@ const sidebarConfig = [
     path: '/dashboard/user',
     icon: getIcon(peopleFill)
   },
-  {
-    title: 'Orders',
-    path: '/dashboard/orders',
-    icon: getIcon(fileTextFill)
-  },
-  {
-    title: 'Product',
-    path: '/dashboard/products',
-    icon: getIcon(shoppingBagFill)
-  },
-  {
-    title: 'Vehicle booking',
-    path: '/dashboard/vehicle-booking',
-    icon: getIcon(lockFill)
-  },
+  // {
+  //   title: 'Orders',
+  //   path: '/dashboard/orders',
+  //   icon: getIcon(fileTextFill)
+  // },
+  // {
+  //   title: 'Product',
+  //   path: '/dashboard/products',
+  //   icon: getIcon(shoppingBagFill)
+  // },
+  // {
+  //   title: 'Vehicle booking',
+  //   path: '/dashboard/vehicle-booking',
+  //   icon: getIcon(lockFill)
+  // },
   {
     title: 'Test ride booking',
     path: '/dashboard/test-ride-booking',
     icon: getIcon(test)
   },
-  {
-    title: 'Add new product',
-    path: '/dashboard/new-product',
-    icon: getIcon(plus)
-  },
-  {
-    title: 'Feedback & reviews',
-    path: '/dashboard/feedback-review',
-    icon: getIcon(feedback)
-  }
+  // {
+  //   title: 'Add new product',
+  //   path: '/dashboard/new-product',
+  //   icon: getIcon(plus)
+  // },
+  // {
+  //   title: 'Feedback & reviews',
+  //   path: '/dashboard/feedback-review',
+  //   icon: getIcon(feedback)
+  // }
+  
   // {
   //   title: 'login',
   //   path: '/login',

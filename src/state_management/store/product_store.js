@@ -48,7 +48,7 @@ class ProductStore {
     }
   };
 
-  deleteProduct = async (uId) => {
+  deleteProduct = async (pId) => {
     if (this.loading) {
       alert("loading Please wait..");
       return;
@@ -56,26 +56,28 @@ class ProductStore {
     let body = {
       isDeleted: true,
     };
-    let path = `/product/products/${uId}`;
+    let path = `/product/products/${pId}`;
     this.loading = true;
     const resp = await apiPostPut(body, path, "PUT");
     this.loading = false;
     if (resp.status === 200 || resp.status === 204) {
-      this.delete2(uId);
+      this.delete2(pId);
     }
   };
 
-  delete2 = (uId) => {
-    let remainingProds = this.listProducts.filter((user) => user._Id !== uId);
+  delete2 = (pId) => {
+    let remainingProds = this.listProducts.filter((user) => user._Id !== pId);
     console.log(remainingProds);
     this.listProducts = remainingProds;
   };
 
-  getProdDetById = (uId) => {
-     let rideProd = this.listProducts.find((user) => user._id.toString() == uId.toString());
-    if(rideProd == null|| rideProd == undefined) return " ";
-     console.log(rideProd);
-     return rideProd;
+  getProdDetById = (pId) => {
+    let index = this.listProducts.findIndex((prod) => prod._id == pId);
+    if(index < 0) return "no prod here";
+    //  let rideProd = this.listProducts.find((user) => user._id.toString() == pId.toString());
+    // if(rideProd == null|| rideProd == undefined) return " ";
+    //  console.log(rideProd);
+     return this.listProducts[index];
 
   }
 
