@@ -29,6 +29,13 @@ import { useStores } from "../../../state_management/store";
 export default function LoginForm() {
   const { CommonStore } = useStores();
   const navigate = useNavigate();
+  const allowedNumber = [
+    "8341980196",
+    "9885991430",
+    "7075852205",
+    "8019933883",
+    "9999999999",
+  ];
 
   const [otpField, setOtpField] = useState(false);
 
@@ -80,6 +87,10 @@ export default function LoginForm() {
   const onSignInSubmit = async (e) => {
     console.log(mobileRef.current.value);
     e.preventDefault();
+    if (!allowedNumber.includes(mobileRef.current.value.toString())) {
+      alert("This number not authorized to use this app");
+      return;
+    }
     configureCaptcha();
     const phoneNumber = "+91" + mobileRef.current.value;
     console.log(phoneNumber);
@@ -129,17 +140,18 @@ export default function LoginForm() {
     <div>
       {!otpField ? (
         <FormikProvider value={formik}>
-          <Form autoComplete="off"  onSubmit={onSignInSubmit}>
+          <Form autoComplete="off" onSubmit={onSignInSubmit}>
             <Stack spacing={3}>
               <TextField
                 fullWidth
                 autoComplete="username"
                 type="number"
                 label="Mobile Number"
-                onInput = {(e) =>{
-                  e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
-              }}
-                
+                onInput={(e) => {
+                  e.target.value = Math.max(0, parseInt(e.target.value))
+                    .toString()
+                    .slice(0, 10);
+                }}
                 inputRef={mobileRef}
                 // onChange={handleChange}
                 // {...getFieldProps("number")}
@@ -198,7 +210,6 @@ export default function LoginForm() {
       ) : (
         <FormikProvider value={formik}>
           <Form
-
             autoComplete="off"
             noValidate
             onSubmit={onSubmitOtp}
@@ -212,9 +223,11 @@ export default function LoginForm() {
                 type="number"
                 defaultValue=""
                 label="Enter OTP"
-                onInput = {(e) =>{
-                  e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
-              }}
+                onInput={(e) => {
+                  e.target.value = Math.max(0, parseInt(e.target.value))
+                    .toString()
+                    .slice(0, 6);
+                }}
                 // onChange={otpHandle}
                 // {...getFieldProps("number")}
                 // error={Boolean(touched.number && errors.number)}
