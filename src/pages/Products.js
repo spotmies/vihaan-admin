@@ -1,47 +1,43 @@
-import { useFormik } from 'formik';
-import { useState,useEffect } from 'react';
-import { useObserver } from 'mobx-react';
+import { useFormik } from "formik";
+import { useState, useEffect } from "react";
+import { useObserver } from "mobx-react";
 
 // material
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography } from "@mui/material";
 
 // components
-import Page from '../components/Page';
+import Page from "../components/Page";
 import {
   ProductSort,
   ProductList,
   ProductCartWidget,
   ProductFilterSidebar,
-  AddNewProduct
-} from '../components/_dashboard/products';
+  AddNewProduct,
+} from "../components/_dashboard/products";
 //
 // import PRODUCTS from '../_mocks_/products';
-// 
-import {useStores} from "../state_management/store/index";
-
-
+//
+import { useStores } from "../state_management/store/index";
 
 // ----------------------------------------------------------------------
 
 export default function EcommerceShop() {
   const [openFilter, setOpenFilter] = useState(false);
- 
 
-  const {ProductStore} =  useStores()
- 
+  const { ProductStore } = useStores();
 
   const formik = useFormik({
     initialValues: {
-      state:'',
-      gender: '',
-      category: '',
-      colors: '',
-      priceRange: '',
-      rating: ''
+      state: "",
+      gender: "",
+      category: "",
+      colors: "",
+      priceRange: "",
+      rating: "",
     },
     onSubmit: () => {
       setOpenFilter(false);
-    }
+    },
   });
 
   const { resetForm, handleSubmit } = formik;
@@ -59,21 +55,13 @@ export default function EcommerceShop() {
     resetForm();
   };
 
- 
-  useEffect(()=>{          
-    if(ProductStore.listProducts.length>0)
-      return
+  useEffect(() => {
+    if (ProductStore.listProducts.length > 0) return;
 
-    ProductStore.fetchProductFromDB()
-    
-  },[])
-  
+    ProductStore.fetchProductFromDB();
+  }, []);
 
-  
-  
-
-
-  return useObserver (()=>(
+  return useObserver(() => (
     <Page title="Dashboard: Products">
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
@@ -97,21 +85,19 @@ export default function EcommerceShop() {
             />
             <ProductSort />
             {/* Add */}
-            <AddNewProduct/>
+            <AddNewProduct />
           </Stack>
         </Stack>
-        
 
-          {
+        {/* {
             ProductStore.showActiveProduct?(
 
               <ProductList products={ProductStore.activeProductsList} />
-            ):(
+            ):( */}
 
-              <ProductList products={ProductStore.listProducts} />
-            )
-          }
-
+        <ProductList products={ProductStore.listProducts} />
+        {/* )
+          } */}
       </Container>
     </Page>
   ));

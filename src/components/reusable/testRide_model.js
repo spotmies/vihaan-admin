@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 
 export default function TestRideModel(props) {
   // const lat = {props.details.bookingLocation[0]};
@@ -24,19 +23,29 @@ export default function TestRideModel(props) {
             <b>mobile</b> : {props.userDet.mobile}
           </li>
           <li>
-            <b>Model</b> : {props.details.createdAt}
+            <b>Model</b> :{" "}
+            {props.details?.vehicleDetails?.basicDetails?.modelName}
           </li>
           <li>
             <b>Delivery At</b> : {props.details.schedule}
           </li>
           <li>
-            <b>Location</b> : {props.details.bookingPlace.addressLine}, {props.details.bookingPlace.locality}, {props.details.bookingPlace.city}, {props.details.bookingPlace.postalCode}
+            <b>Location</b> : {props.details.bookingPlace.addressLine},{" "}
+            {props.details.bookingPlace.locality},{" "}
+            {props.details.bookingPlace.city},{" "}
+            {props.details.bookingPlace.postalCode}
           </li>
           <li>
             <b>Created At</b> : {props.details.schedule}
           </li>
           <li>
-            <b>URL</b> :<a href={`https://google.co.in/maps/place/${props.details.bookingLocation[0]},${props.details.bookingLocation[1]}`} target="blank">Click here</a>
+            <b>URL</b> :
+            <a
+              href={`https://google.co.in/maps/place/${props.details.bookingLocation[0]},${props.details.bookingLocation[1]}`}
+              target="blank"
+            >
+              Click here
+            </a>
             {/* <b>URL:</b><Link to="#" >Click here</Link> */}
           </li>
         </ul>

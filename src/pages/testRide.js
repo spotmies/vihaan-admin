@@ -38,6 +38,7 @@ import { useStores } from "../state_management/store";
 import Popup from "./popup";
 import React from "react";
 import TestRideModel from "../components/reusable/testRide_model";
+import { dateFormat, format } from "src/utils/common";
 
 // ----------------------------------------------------------------------
 
@@ -112,13 +113,13 @@ export default function TestRides() {
     setSelected([]);
   };
 
-  useEffect(() => {
-    if (UserStore.listUser.length < 1) UserStore.fetchUserFromDB();
-  }, []);
+  // useEffect(() => {
+  //   if (UserStore.listUser.length < 1) UserStore.fetchUserFromDB();
+  // }, []);
 
-  useEffect(() => {
-    if (ProductStore.listProducts.length < 1) ProductStore.fetchProductFromDB();
-  }, []);
+  // useEffect(() => {
+  //   if (ProductStore.listProducts.length < 1) ProductStore.fetchProductFromDB();
+  // }, []);
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -164,7 +165,7 @@ export default function TestRides() {
 
   const selectedItem = (item) => {
     setSelectedData(item);
-    setUserData(UserStore.getUserDetById(item.userDetails));
+    setUserData(item?.userDetails);
     console.log(userData);
     setPop(true);
   };
@@ -172,7 +173,8 @@ export default function TestRides() {
   useEffect(() => {
     if (TestRides.listRides.length < 1) {
       TestRides.fetchRidesFromDB();
-  }}, []);
+    }
+  }, []);
   return useObserver(() => (
     <Page title="User">
       <Container>
@@ -244,25 +246,24 @@ export default function TestRides() {
                       >
                         <Stack direction="row" alignItems="center" spacing={2}>
                           <Avatar
-                            alt={
-                              UserStore.getUserDetById(ride.userDetails).name
-                            }
-                            src={UserStore.getUserDetById(ride.userDetails).pic}
+                            alt={ride.userDetails.name}
+                            src={ride.userDetails.pic}
                           />
                           <Typography variant="subtitle2" noWrap>
-                            {UserStore.getUserDetById(ride.userDetails).name}
+                            {ride.userDetails.name}
                           </Typography>
                         </Stack>
                       </TableCell>
                       <TableCell align="left">
-                        {UserStore.getUserDetById(ride.userDetails).mobile}
+                        {ride.userDetails.mobile}
                       </TableCell>
                       <TableCell align="left">
-                        {
-                          ProductStore.getProdDetById(ride.vehicleDetails).basicDetails.modelName
-                        }
+                        {ride.vehicleDetails?.basicDetails?.modelName}
                       </TableCell>
-                      <TableCell align="left">{ride.schedule}</TableCell>
+                      {/* <TableCell align="left">{ride.schedule}</TableCell> */}
+                      <TableCell align="left">
+                        {dateFormat(ride.schedule, format[0])}
+                      </TableCell>
 
                       {/* <TableCell align="left">{user.isActive ? 'Yes' : 'No'}</TableCell> */}
                       {/* <TableCell align="left">
@@ -275,7 +276,7 @@ export default function TestRides() {
                           </TableCell> */}
 
                       <TableCell align="center">
-                        <TestRideMoreMenu 
+                        <TestRideMoreMenu
                           onDelete={() => {
                             TestRides.deleteRide(ride.driveId);
                           }}

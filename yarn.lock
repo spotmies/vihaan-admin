@@ -10291,6 +10291,11 @@
     "react-fast-compare" "^3.2.0"
     "shallowequal" "^1.1.0"
 
+"react-hook-form@^7.22.1":
+  "integrity" "sha512-gdz5dhdOPfd04uj00a+Fw8JHA4m6evn3RQeVEQSZCOrmRC+LqaTwsR97cQfj5vu3yCXhSETrUtiDoXJojW/KGg=="
+  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.22.2.tgz"
+  "version" "7.22.2"
+
 "react-icons@^4.3.1":
   "integrity" "sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ=="
   "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.3.1.tgz"
