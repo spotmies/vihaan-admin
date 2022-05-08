@@ -1,17 +1,16 @@
 // material
-import { Box, Grid, Container, Typography } from '@mui/material';
-import { useState,useEffect } from 'react';
-import { useStores } from '../state_management/store';
-import TodayRevenue from '../components/_dashboard/app/today_revenue';
+import { Box, Grid, Container, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useStores } from "../state_management/store";
+import TodayRevenue from "../components/_dashboard/app/today_revenue";
 import androidFilled from "@iconify/icons-ant-design/slack-circle";
 import phone from "@iconify/icons-ant-design/account-book";
 import windowsFilled from "@iconify/icons-ant-design/shopping-filled";
 import appleFilled from "@iconify/icons-ant-design/user";
 
-
 import palette from "../theme/palette";
 // components
-import Page from '../components/Page';
+import Page from "../components/Page";
 import {
   AppTasks,
   AppNewUsers,
@@ -24,28 +23,28 @@ import {
   AppWebsiteVisits,
   AppTrafficBySite,
   AppCurrentSubject,
-  AppConversionRates
-} from '../components/_dashboard/app';
+  AppConversionRates,
+} from "../components/_dashboard/app";
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
-  const {UserStore, ProductStore} = useStores();
-  
-  useEffect(() => {
-    if(UserStore.listUser.length<1) UserStore.fetchUserFromDB()
-   }, [])
+  const { UserStore, ProductStore } = useStores();
 
-   useEffect(() => {
-    if(ProductStore.listProducts.length<1) ProductStore.fetchProductFromDB()
-   }, [])
+  useEffect(() => {
+    if (UserStore.listUser.length < 1) UserStore.fetchUserFromDB();
+  }, []);
+
+  useEffect(() => {
+    if (ProductStore.listProducts.length < 1) ProductStore.fetchProductFromDB();
+  }, []);
 
   console.log(`"welcome here"`);
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hi, Welcome vihaan</Typography>
+          <Typography variant="h4">Hi, Welcome Project admin panel</Typography>
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
@@ -115,7 +114,7 @@ export default function DashboardApp() {
             <AppNewsUpdate />
           </Grid> */}
 
-{/* same */}
+          {/* same */}
           {/* <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline />
           </Grid> */}

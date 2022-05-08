@@ -33,7 +33,7 @@ class UserStore {
     const resp = await apiGet(apiUrl.listUsers);
     this.loading = false;
     if (resp.status === 200) {
-      this.listUser = resp.body;
+      this.listUser = resp.body.data;
       console.log(resp.body);
     } else {
       console.log("went wroing", resp.status);
@@ -70,7 +70,6 @@ class UserStore {
     //
   };
 
-
   userBanBlock = async (lUserState, uId) => {
     if (this.loading) {
       alert("loading try again later..");
@@ -83,18 +82,13 @@ class UserStore {
     this.loading = true;
     const resp = await apiPostPut(body, path, "PUT");
     this.loading = false;
-    if (resp.status === 200 || resp.status === 204 || resp.status===403){
-     const index = this.listUser.findIndex(user => user.uId === uId ) 
-     this.listUser[index].userState = lUserState;
-     }
-     else
-     {
-       alert(`something went wrong please try again.....${resp.status}`)
-     }
+    if (resp.status === 200 || resp.status === 204 || resp.status === 403) {
+      const index = this.listUser.findIndex((user) => user.uId === uId);
+      this.listUser[index].userState = lUserState;
+    } else {
+      alert(`something went wrong please try again.....${resp.status}`);
+    }
   };
 }
-
-
-
 
 export default UserStore;

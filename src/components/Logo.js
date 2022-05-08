@@ -1,14 +1,16 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 // material
-import { Box } from '@mui/material';
-import logo from './VE-logo.jpg';
+import { Box } from "@mui/material";
+import logo from "./sample-logo.png";
 
 // ----------------------------------------------------------------------
 
 Logo.propTypes = {
-  sx: PropTypes.object
+  sx: PropTypes.object,
 };
 
 export default function Logo({ sx }) {
-  return <Box component="img" src={logo} sx={{ width: 60, height: 60, ...sx }} />;
+  return (
+    <Box component="img" src={logo} sx={{ width: 60, height: 60, ...sx }} />
+  );
 }
