@@ -13,21 +13,21 @@ import feedback from "@iconify/icons-ic/comment";
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
 const sidebarConfig = [
-  // {
-  //   title: "dashboard",
-  //   path: "/dashboard/app",
-  //   icon: getIcon(pieChart2Fill),
-  // },
+  {
+    title: "dashboard",
+    path: "/dashboard/app",
+    icon: getIcon(pieChart2Fill),
+  },
   {
     title: "User",
     path: "/dashboard/user",
     icon: getIcon(peopleFill),
   },
-  // {
-  //   title: "Orders",
-  //   path: "/dashboard/orders",
-  //   icon: getIcon(fileTextFill),
-  // },
+  {
+    title: "Orders",
+    path: "/dashboard/orders",
+    icon: getIcon(fileTextFill),
+  },
   {
     title: "Product",
     path: "/dashboard/products",
@@ -48,11 +48,11 @@ const sidebarConfig = [
   //   path: "/dashboard/new-product",
   //   icon: getIcon(plus),
   // },
-  // {
-  //   title: "Feedback & reviews",
-  //   path: "/dashboard/feedback-review",
-  //   icon: getIcon(feedback),
-  // },
+  {
+    title: "Feedback & reviews",
+    path: "/dashboard/feedback-review",
+    icon: getIcon(feedback),
+  },
 
   {
     title: "login",
